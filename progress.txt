@@ -528,3 +528,26 @@ Started: 2024-01-15
   - Category sections with border-bottom titles help organize long FAQ lists
 
 ---
+
+## 2026-01-16 - US-019
+
+- What was implemented:
+  - Created `pages/contact.html` with complete Contact page
+  - Contact form with name, email, subject dropdown, and message fields
+  - Form validation with error messages and success state (fake - doesn't send)
+  - Contact info sidebar: address (1847 Bristleworth Lane, Whiskerdale), phone (24/7 Mustache Hotline), email addresses
+  - Business hours display with formatted Mon-Fri, Sat, Sun hours
+  - SVG map placeholder with location pin at fictional address
+  - Success message shows after form submission with "Send Another" option
+  - Two-column responsive layout: form left, info cards right
+- Files changed:
+  - pages/contact.html (new - 350+ lines)
+  - css/pages.css (extended - ~240 lines of Contact page styles)
+  - tasks.json (updated passes: true for US-019)
+- **Learnings:**
+  - Contact info cards with icons provide clear visual hierarchy
+  - Business hours display benefits from flexbox justify-content: space-between
+  - SVG map placeholder is lightweight and brand-colored
+  - Form success state uses hidden attribute toggle for clean UX
+
+---

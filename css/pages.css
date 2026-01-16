@@ -3608,3 +3608,247 @@
   line-height: 1.7;
   margin: 0 0 var(--space-6);
 }
+
+/* ============================================
+   CONTACT PAGE - pages/contact.html
+   ============================================ */
+
+/* Contact Page Layout */
+.contact-page {
+  padding: var(--space-8) 0 var(--space-16);
+  min-height: calc(100vh - 200px);
+}
+
+/* Contact Header */
+.contact-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-12);
+}
+
+.contact-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 var(--space-4);
+}
+
+.contact-subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Contact Layout */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+  margin-bottom: var(--space-16);
+}
+
+@media (min-width: 1024px) {
+  .contact-layout {
+    grid-template-columns: 1fr 380px;
+    gap: var(--space-12);
+  }
+}
+
+/* Contact Form Section */
+.contact-form-section {
+  background-color: var(--color-white);
+  padding: var(--space-8);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 768px) {
+  .contact-form-section {
+    padding: var(--space-10);
+  }
+}
+
+.contact-form .form-group {
+  margin-bottom: var(--space-5);
+}
+
+.contact-form .form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.contact-form .form-label .required {
+  color: var(--color-error);
+}
+
+.contact-form .form-textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.contact-form .form-error {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-error);
+  margin-top: var(--space-1);
+  min-height: 20px;
+}
+
+/* Contact Success Message */
+.contact-success {
+  text-align: center;
+  padding: var(--space-8);
+}
+
+.contact-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--space-6);
+  background-color: var(--color-success);
+  color: var(--color-white);
+  border-radius: var(--radius-full);
+}
+
+.contact-success-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 var(--space-3);
+}
+
+.contact-success-text {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin: 0 0 var(--space-6);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Contact Info Sidebar */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.contact-info-card {
+  background-color: var(--color-white);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-4);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-full);
+}
+
+.contact-info-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 var(--space-3);
+}
+
+.contact-info-content {
+  font-size: var(--text-base);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.contact-info-content address {
+  font-style: normal;
+}
+
+.contact-info-content p {
+  margin: 0 0 var(--space-1);
+}
+
+.contact-info-content p:last-child {
+  margin-bottom: 0;
+}
+
+.contact-info-content a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.contact-info-content a:hover {
+  text-decoration: underline;
+}
+
+.contact-info-note {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+}
+
+/* Business Hours */
+.contact-hours {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+}
+
+.hours-row span:first-child {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.hours-row span:last-child {
+  color: var(--color-text-muted);
+}
+
+/* Map Section */
+.contact-map-section {
+  margin-top: var(--space-8);
+}
+
+.contact-map-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 var(--space-6);
+  text-align: center;
+}
+
+.contact-map-placeholder {
+  width: 100%;
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-map-placeholder svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
