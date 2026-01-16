@@ -394,36 +394,5 @@
   <script src="../js/checkout.js"></script>
   <script src="../js/filters.js"></script>
   <script src="../js/main.js"></script>
-  <script>
-    // FAQ Accordion functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const faqQuestions = document.querySelectorAll('.faq-question');
-
-      faqQuestions.forEach(function(question) {
-        question.addEventListener('click', function() {
-          const item = this.parentElement;
-          const answer = item.querySelector('.faq-answer');
-          const isOpen = this.getAttribute('aria-expanded') === 'true';
-
-          // Close all other items
-          document.querySelectorAll('.faq-item.is-open').forEach(function(openItem) {
-            if (openItem !== item) {
-              openItem.classList.remove('is-open');
-              openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-            }
-          });
-
-          // Toggle current item
-          if (isOpen) {
-            item.classList.remove('is-open');
-            this.setAttribute('aria-expanded', 'false');
-          } else {
-            item.classList.add('is-open');
-            this.setAttribute('aria-expanded', 'true');
-          }
-        });
-      });
-    });
-  </script>
 </body>
 </html>
