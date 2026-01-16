@@ -126,7 +126,8 @@
       // Cart page init
       initCartPage();
     } else if (path.includes('checkout.html')) {
-      // Checkout page init - to be implemented in US-015
+      // Checkout page init
+      initCheckoutPage();
     } else if (path.includes('confirmation.html')) {
       // Confirmation page init - to be implemented in US-016
     }
@@ -1815,6 +1816,368 @@
     } else {
       if (inputGroup) inputGroup.style.display = 'flex';
       if (appliedSection) appliedSection.hidden = true;
+    }
+  }
+
+  // ============================================
+  // CHECKOUT PAGE INITIALIZATION
+  // ============================================
+
+  // Checkout page state
+  let checkoutState = {
+    cartItems: [],
+    summary: null
+  };
+
+  const checkoutRequiredFields = [
+    'email',
+    'firstName',
+    'lastName',
+    'address1',
+    'city',
+    'state',
+    'zipCode',
+    'country'
+  ];
+
+  /**
+   * Initialize checkout page functionality
+   */
+  function initCheckoutPage() {
+    const emptyState = document.getElementById('checkout-empty');
+    const layout = document.getElementById('checkout-layout');
+    const form = document.getElementById('checkout-form');
+
+    if (!form) return;
+
+    if (typeof CartModule === 'undefined') {
+      if (emptyState) emptyState.hidden = false;
+      if (layout) layout.hidden = true;
+      return;
+    }
+
+    checkoutState.cartItems = CartModule.getCart();
+    checkoutState.summary = CartModule.getCartSummary();
+
+    if (!checkoutState.cartItems.length) {
+      if (emptyState) emptyState.hidden = false;
+      if (layout) layout.hidden = true;
+      return;
+    }
+
+    if (emptyState) emptyState.hidden = true;
+    if (layout) layout.hidden = false;
+
+    renderCheckoutSummary(checkoutState.cartItems, checkoutState.summary);
+    initCheckoutForm(form);
+    updateCheckoutSubmitState(getCheckoutFormData());
+  }
+
+  /**
+   * Initialize checkout form listeners
+   * @param {HTMLFormElement} form - Checkout form element
+   */
+  function initCheckoutForm(form) {
+    form.addEventListener('input', handleCheckoutFieldChange);
+    form.addEventListener('change', handleCheckoutFieldChange);
+    form.addEventListener('submit', handleCheckoutSubmit);
+  }
+
+  /**
+   * Handle live field validation
+   * @param {Event} event - Input/change event
+   */
+  function handleCheckoutFieldChange(event) {
+    const target = event.target;
+    if (!target || !target.name) return;
+
+    const formData = getCheckoutFormData();
+    validateCheckoutField(target.name, formData, true);
+    updateCheckoutSubmitState(formData);
+  }
+
+  /**
+   * Handle checkout form submission
+   * @param {Event} event - Submit event
+   */
+  function handleCheckoutSubmit(event) {
+    event.preventDefault();
+
+    const formData = getCheckoutFormData();
+    const isValid = validateCheckoutFormData(formData, true);
+
+    if (!isValid) {
+      const firstInvalid = document.querySelector('.checkout-form .is-invalid');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    processCheckoutOrder(formData);
+  }
+
+  /**
+   * Get checkout form data
+   * @returns {Object} Form data object
+   */
+  function getCheckoutFormData() {
+    return {
+      email: document.getElementById('email')?.value || '',
+      phone: document.getElementById('phone')?.value || '',
+      firstName: document.getElementById('firstName')?.value || '',
+      lastName: document.getElementById('lastName')?.value || '',
+      address1: document.getElementById('address1')?.value || '',
+      address2: document.getElementById('address2')?.value || '',
+      city: document.getElementById('city')?.value || '',
+      state: document.getElementById('state')?.value || '',
+      zipCode: document.getElementById('zipCode')?.value || '',
+      country: document.getElementById('country')?.value || '',
+      deliveryNotes: document.getElementById('deliveryNotes')?.value || ''
+    };
+  }
+
+  /**
+   * Validate the entire checkout form
+   * @param {Object} formData - Form data object
+   * @param {boolean} showErrors - Whether to display errors
+   * @returns {boolean} Whether the form is valid
+   */
+  function validateCheckoutFormData(formData, showErrors) {
+    let isValid = true;
+
+    checkoutRequiredFields.forEach(field => {
+      const fieldValid = validateCheckoutField(field, formData, showErrors);
+      if (!fieldValid) isValid = false;
+    });
+
+    // Optional phone field validation
+    const phoneValid = validateCheckoutField('phone', formData, showErrors);
+    if (!phoneValid) isValid = false;
+
+    return isValid;
+  }
+
+  /**
+   * Validate a single checkout field
+   * @param {string} fieldName - Field name
+   * @param {Object} formData - Form data
+   * @param {boolean} showErrors - Whether to show error messages
+   * @returns {boolean} Whether the field is valid
+   */
+  function validateCheckoutField(fieldName, formData, showErrors) {
+    const input = document.getElementById(fieldName);
+    if (!input || typeof CheckoutModule === 'undefined') return true;
+
+    let result = { valid: true, message: '' };
+
+    switch (fieldName) {
+      case 'email':
+        result = CheckoutModule.validateEmail(formData.email);
+        break;
+      case 'phone':
+        result = CheckoutModule.validatePhone(formData.phone, false);
+        break;
+      case 'firstName':
+        result = CheckoutModule.validateRequired(formData.firstName, 'First name');
+        break;
+      case 'lastName':
+        result = CheckoutModule.validateRequired(formData.lastName, 'Last name');
+        break;
+      case 'address1':
+        result = CheckoutModule.validateRequired(formData.address1, 'Address');
+        break;
+      case 'city':
+        result = CheckoutModule.validateRequired(formData.city, 'City');
+        break;
+      case 'state':
+        result = CheckoutModule.validateRequired(formData.state, 'State/Province');
+        break;
+      case 'zipCode':
+        result = CheckoutModule.validateZipCode(formData.zipCode, formData.country);
+        break;
+      case 'country':
+        result = CheckoutModule.validateRequired(formData.country, 'Country');
+        break;
+      default:
+        result = { valid: true, message: '' };
+    }
+
+    if (showErrors) {
+      updateCheckoutFieldUI(input, fieldName, result);
+    }
+
+    return result.valid;
+  }
+
+  /**
+   * Update field UI with validation state
+   * @param {HTMLElement} input - Input element
+   * @param {string} fieldName - Field name
+   * @param {Object} result - Validation result
+   */
+  function updateCheckoutFieldUI(input, fieldName, result) {
+    const errorEl = document.getElementById(`error-${fieldName}`);
+
+    if (result.valid) {
+      input.classList.remove('is-invalid');
+      input.classList.add('is-valid');
+      if (errorEl) errorEl.textContent = '';
+    } else {
+      input.classList.remove('is-valid');
+      input.classList.add('is-invalid');
+      if (errorEl) errorEl.textContent = result.message || 'This field is required.';
+    }
+  }
+
+  /**
+   * Update submit button state
+   * @param {Object} formData - Form data
+   */
+  function updateCheckoutSubmitState(formData) {
+    const submitBtn = document.getElementById('place-order-btn');
+    if (!submitBtn) return;
+
+    const isValid = validateCheckoutFormData(formData, false);
+    submitBtn.disabled = !isValid;
+  }
+
+  /**
+   * Render checkout summary sidebar
+   * @param {Array} items - Cart items
+   * @param {Object} summary - Cart summary
+   */
+  function renderCheckoutSummary(items, summary) {
+    const itemsContainer = document.getElementById('checkout-items');
+    if (itemsContainer) {
+      itemsContainer.innerHTML = items.map(item => createCheckoutItemHTML(item)).join('');
+    }
+
+    const subtotalEl = document.getElementById('checkout-subtotal');
+    const totalEl = document.getElementById('checkout-total');
+    const discountRow = document.getElementById('checkout-discount-row');
+    const discountEl = document.getElementById('checkout-discount');
+
+    if (subtotalEl) subtotalEl.textContent = formatCurrency(summary.subtotal);
+    if (totalEl) totalEl.textContent = formatCurrency(summary.total);
+
+    if (discountRow && discountEl) {
+      if (summary.discount > 0) {
+        discountRow.hidden = false;
+        discountEl.textContent = `-${formatCurrency(summary.discount)}`;
+      } else {
+        discountRow.hidden = true;
+      }
+    }
+  }
+
+  /**
+   * Create checkout summary item HTML
+   * @param {Object} item - Cart item
+   * @returns {string} HTML string
+   */
+  function createCheckoutItemHTML(item) {
+    let imagePath = item.image;
+    if (!imagePath.startsWith('../') && !imagePath.startsWith('http')) {
+      imagePath = '../' + imagePath;
+    }
+
+    return `
+      <div class="checkout-item">
+        <div class="checkout-item-image">
+          <img src="${imagePath}" alt="${item.name}" loading="lazy">
+        </div>
+        <div class="checkout-item-details">
+          <div class="checkout-item-name">${item.name}</div>
+          <div class="checkout-item-meta">${item.color} / ${item.size}</div>
+          <div class="checkout-item-qty">Qty: ${item.quantity}</div>
+        </div>
+        <div class="checkout-item-price">${formatCurrency(item.price * item.quantity)}</div>
+      </div>
+    `;
+  }
+
+  /**
+   * Process checkout order and redirect to confirmation
+   * @param {Object} formData - Form data
+   */
+  function processCheckoutOrder(formData) {
+    const submitBtn = document.getElementById('place-order-btn');
+    const originalText = submitBtn ? submitBtn.textContent : '';
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner spinner-sm"></span> Processing...';
+    }
+
+    try {
+      const cartItems = checkoutState.cartItems || [];
+      const summary = checkoutState.summary || (CartModule ? CartModule.getCartSummary() : null);
+
+      if (!summary || cartItems.length === 0) {
+        showToast({ title: 'Cart Empty', message: 'Please add items to your cart.', type: 'warning' });
+        return;
+      }
+
+      const order = {
+        items: cartItems.map(item => ({
+          productId: item.productId,
+          name: item.name,
+          price: item.price,
+          size: item.size,
+          color: item.color,
+          quantity: item.quantity,
+          image: item.image
+        })),
+        shipping: {
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          address1: formData.address1.trim(),
+          address2: formData.address2 ? formData.address2.trim() : '',
+          city: formData.city.trim(),
+          state: formData.state.trim(),
+          zipCode: formData.zipCode.trim(),
+          country: formData.country.trim(),
+          notes: formData.deliveryNotes ? formData.deliveryNotes.trim() : ''
+        },
+        contact: {
+          email: formData.email.trim(),
+          phone: formData.phone ? formData.phone.trim() : ''
+        },
+        payment: {
+          method: 'Invoice on Delivery',
+          cardLast4: '0000',
+          cardName: 'Invoice on Delivery'
+        },
+        totals: {
+          subtotal: summary.subtotal,
+          discount: summary.discount,
+          promoCode: summary.promoCode,
+          shipping: summary.shipping,
+          total: summary.total
+        }
+      };
+
+      let savedOrder = order;
+      if (window.CheckoutModule && typeof window.CheckoutModule.saveOrder === 'function') {
+        savedOrder = window.CheckoutModule.saveOrder(order);
+      }
+
+      if (window.CartModule && typeof window.CartModule.clearCart === 'function') {
+        window.CartModule.clearCart();
+      }
+
+      updateCartBadge();
+
+      const orderNumber = savedOrder.orderNumber || '';
+      const targetUrl = orderNumber ? `confirmation.html?order=${encodeURIComponent(orderNumber)}` : 'confirmation.html';
+      window.location.href = targetUrl;
+    } catch (error) {
+      console.error('Checkout error:', error);
+      showToast({ title: 'Checkout failed', message: 'Please try again.', type: 'error' });
+    } finally {
+      if (submitBtn) {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
     }
   }
 

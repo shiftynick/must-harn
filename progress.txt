@@ -23,6 +23,24 @@ Started: 2024-01-15
 
 ---
 
+## 2026-01-16 - US-015
+
+- What was implemented:
+  - Created `pages/checkout.html` with contact/shipping form, empty state, and order summary
+  - Added checkout page styles for layout, form sections, and summary card
+  - Implemented checkout page logic in `js/main.js` for rendering, validation, and order processing
+- Files changed:
+  - pages/checkout.html (new)
+  - css/pages.css
+  - js/main.js
+  - tasks.json
+- **Learnings:**
+  - Checkout form can reuse CheckoutModule field validators without collecting payment data
+  - Disabling submit until required fields validate keeps the UX calm and deliberate
+  - Cart image paths need normalization when rendering from /pages/
+
+---
+
 ## 2026-01-16 - US-001
 
 - What was implemented:
