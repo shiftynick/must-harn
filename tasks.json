@@ -314,7 +314,7 @@
         "'Satisfaction Guaranteed' emphasis"
       ],
       "priority": 20,
-      "passes": false,
+      "passes": true,
       "notes": "Phase 11.4"
     },
     {
