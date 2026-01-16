@@ -1,0 +1,351 @@
+{
+  "branchName": "main",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Project Setup & Folder Structure",
+      "acceptanceCriteria": [
+        "Create folder structure: /pages, /css, /js, /images, /data",
+        "Create index.html with boilerplate",
+        "Create netlify.toml with basic config",
+        "Initialize git repository",
+        "Create .gitignore file"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Phase 1.1 - Foundation"
+    },
+    {
+      "id": "US-002",
+      "title": "Brand Identity & Base Styles",
+      "acceptanceCriteria": [
+        "Define color palette in CSS variables (burgundy, gold, cream, charcoal)",
+        "Set up typography (Playfair Display headings, Inter body)",
+        "Create CSS reset/normalize",
+        "Create utility classes for spacing, flexbox, grid",
+        "Style buttons (primary, secondary, outline)",
+        "Style form inputs",
+        "Create card component base styles"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Phase 1.2-1.3 - Brand: 'Mustache Harnesses Co.' Tagline: 'Dignified Solutions for Distinguished Facial Hair'"
+    },
+    {
+      "id": "US-003",
+      "title": "Product Data Creation",
+      "acceptanceCriteria": [
+        "Create /data/products.json with 12 products",
+        "4 categories: Precision Shapers, Croc-Style Fun-cessories, Support & Lift Systems, Night Guards",
+        "Each product has: id, name, category, description, price, images, sizes, colors, reviews, rating, reviewCount, inStock, stockCount, isNew, salesCount, dateAdded",
+        "All descriptions written in deadpan serious tone",
+        "Fake reviews with names, ratings, text, dates"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "Phase 2 - See BUILD-PLAN.md Appendix A for product details"
+    },
+    {
+      "id": "US-004",
+      "title": "Placeholder Images",
+      "acceptanceCriteria": [
+        "Create 400x400 colored placeholder boxes for each product",
+        "Use category-specific colors for identification",
+        "Add text overlay with product name",
+        "Store in /images/placeholders/"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Phase 2.4 - Temporary until AI images generated"
+    },
+    {
+      "id": "US-005",
+      "title": "Product Data Module (products.js)",
+      "acceptanceCriteria": [
+        "Function to load products from JSON",
+        "Function to get product by ID",
+        "Function to get products by category",
+        "Function to search products",
+        "Function to sort products (price, name, newest, best sellers, rating)",
+        "Function to filter products (category, price range, color, size, stock)"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "Phase 3.1"
+    },
+    {
+      "id": "US-006",
+      "title": "Cart Module (cart.js)",
+      "acceptanceCriteria": [
+        "Initialize cart from localStorage",
+        "Add item to cart (with size, color, quantity)",
+        "Remove item from cart",
+        "Update item quantity",
+        "Calculate subtotal",
+        "Apply promo code 'AIForHumans' for 10% off",
+        "Validate promo code",
+        "Calculate discount and total",
+        "Save/load cart from localStorage (key: mh_cart)",
+        "Clear cart function",
+        "Get cart item count for header badge"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "Phase 3.2"
+    },
+    {
+      "id": "US-007",
+      "title": "Checkout Module (checkout.js)",
+      "acceptanceCriteria": [
+        "Email validation",
+        "Phone validation",
+        "Credit card number format validation",
+        "Expiry date validation",
+        "CVV validation",
+        "Required field validation",
+        "Zip code validation",
+        "Save order to localStorage (key: mh_orders)",
+        "Generate order confirmation number",
+        "Clear cart after successful checkout"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "Phase 3.3"
+    },
+    {
+      "id": "US-008",
+      "title": "Filter Module (filters.js)",
+      "acceptanceCriteria": [
+        "Parse URL query parameters for filter state",
+        "Update URL when filters change",
+        "Combine multiple filters",
+        "Reset filters function",
+        "Get available filter options from product data"
+      ],
+      "priority": 8,
+      "passes": true,
+      "notes": "Phase 3.4"
+    },
+    {
+      "id": "US-009",
+      "title": "Header & Footer Components",
+      "acceptanceCriteria": [
+        "Header with logo linking to home",
+        "Navigation: Shop, About, FAQ, Contact",
+        "Cart icon with item count badge",
+        "Mobile hamburger menu",
+        "Promo banner: 'Free shipping on all orders | Use code AIForHumans for 10% off'",
+        "Footer with brand name, tagline, navigation links",
+        "Footer social media icons (fake)",
+        "Copyright notice"
+      ],
+      "priority": 9,
+      "passes": true,
+      "notes": "Phase 4.1-4.2"
+    },
+    {
+      "id": "US-010",
+      "title": "Reusable UI Components",
+      "acceptanceCriteria": [
+        "Product card component (image, name, price, rating, badges, add to cart)",
+        "Star rating display (filled/empty stars)",
+        "Quantity selector (+/- buttons)",
+        "Price display with currency formatting",
+        "Badge component (New, Sale, Out of Stock)",
+        "Toast notification for 'Added to cart'",
+        "Modal component for size guide"
+      ],
+      "priority": 10,
+      "passes": true,
+      "notes": "Phase 4.3-4.4"
+    },
+    {
+      "id": "US-011",
+      "title": "Landing Page (index.html)",
+      "acceptanceCriteria": [
+        "Hero section with headline, subheadline, Shop Now CTA",
+        "Trust badges (Free Shipping, Satisfaction Guaranteed, Expert Support, 30-Day Returns)",
+        "Featured products section (4 best sellers in grid)",
+        "Category showcase (4 category cards)",
+        "Promo banner highlighting AIForHumans code",
+        "Testimonials section (3 fake reviews, deadpan serious)",
+        "Newsletter signup (fake - just shows success message)"
+      ],
+      "priority": 11,
+      "passes": true,
+      "notes": "Phase 5"
+    },
+    {
+      "id": "US-012",
+      "title": "Shop Page (shop.html)",
+      "acceptanceCriteria": [
+        "Page title 'Shop All Mustache Harnesses'",
+        "Filter sidebar: Category, Price Range, Color, Size, In-Stock Only",
+        "Collapsible filter panel on mobile",
+        "Sorting dropdown: Featured, Price Low/High, Name A-Z, Newest, Best Sellers, Rating",
+        "Responsive product grid (4 cols desktop, 3 tablet, 2 mobile)",
+        "'No products found' empty state",
+        "Filters reflected in URL query params",
+        "Results count display"
+      ],
+      "priority": 12,
+      "passes": true,
+      "notes": "Phase 6"
+    },
+    {
+      "id": "US-013",
+      "title": "Product Detail Page (product.html)",
+      "acceptanceCriteria": [
+        "Main image display with thumbnail gallery",
+        "Product name, price, star rating with review count",
+        "Color selector swatches",
+        "Size selector with size guide modal",
+        "Quantity selector",
+        "Add to Cart button (large, prominent)",
+        "Stock status indicator",
+        "Tabs/accordion: Description, Specifications, Reviews",
+        "Reviews section with rating summary and individual reviews",
+        "Related products section (4 from same category)"
+      ],
+      "priority": 13,
+      "passes": true,
+      "notes": "Phase 7"
+    },
+    {
+      "id": "US-014",
+      "title": "Cart Page (cart.html)",
+      "acceptanceCriteria": [
+        "Cart items list with image, name, color, size, price, quantity, line total, remove button",
+        "Editable quantity selector",
+        "Empty cart state with 'Continue Shopping' link",
+        "Promo code input with Apply button",
+        "Success/error message for promo code",
+        "Order summary: subtotal, discount, shipping (FREE), total",
+        "'Proceed to Checkout' button"
+      ],
+      "priority": 14,
+      "passes": true,
+      "notes": "Phase 8"
+    },
+    {
+      "id": "US-015",
+      "title": "Checkout Page (checkout.html)",
+      "acceptanceCriteria": [
+        "Two-column layout: form left, order summary right",
+        "Contact section: email, phone",
+        "Shipping section: name, address, city, state, zip, country",
+        "Payment section: card number (formatted), cardholder name, expiry, CVV",
+        "Real-time validation with error messages",
+        "Highlight invalid fields",
+        "Order summary sidebar with items, subtotal, discount, total",
+        "'Place Order' button disabled until form valid"
+      ],
+      "priority": 15,
+      "passes": false,
+      "notes": "Phase 9"
+    },
+    {
+      "id": "US-016",
+      "title": "Order Confirmation Page (confirmation.html)",
+      "acceptanceCriteria": [
+        "Success checkmark icon",
+        "'Thank You for Your Order!' heading",
+        "Confirmation number display",
+        "Email confirmation message",
+        "Order details: shipping address, payment method (masked), items, total",
+        "'Continue Shopping' button",
+        "Estimated delivery message (3-5 business days)"
+      ],
+      "priority": 16,
+      "passes": false,
+      "notes": "Phase 10"
+    },
+    {
+      "id": "US-017",
+      "title": "About Us Page (about.html)",
+      "acceptanceCriteria": [
+        "Hero section with company 'history'",
+        "Comically serious founder origin story",
+        "Mission statement about mustache dignity",
+        "'Our Team' section with fake members and absurd titles",
+        "Company values (quality, precision, mustache excellence)"
+      ],
+      "priority": 17,
+      "passes": false,
+      "notes": "Phase 11.1 - Deadpan serious tone"
+    },
+    {
+      "id": "US-018",
+      "title": "FAQ Page (faq.html)",
+      "acceptanceCriteria": [
+        "Accordion-style Q&A format",
+        "Categories: Ordering & Shipping, Product Info, Returns, Mustache Care",
+        "12-15 questions with deadpan serious answers",
+        "Questions answered earnestly as if products are real"
+      ],
+      "priority": 18,
+      "passes": false,
+      "notes": "Phase 11.2"
+    },
+    {
+      "id": "US-019",
+      "title": "Contact Page (contact.html)",
+      "acceptanceCriteria": [
+        "Contact form: name, email, subject dropdown, message, submit",
+        "Form shows success message on submit (fake)",
+        "Contact info: fake address, phone, email",
+        "Business hours display",
+        "Map placeholder"
+      ],
+      "priority": 19,
+      "passes": false,
+      "notes": "Phase 11.3"
+    },
+    {
+      "id": "US-020",
+      "title": "Return Policy Page (returns.html)",
+      "acceptanceCriteria": [
+        "Clear heading 'Return Policy'",
+        "30-day return policy details",
+        "Conditions for returns",
+        "How to initiate a return (fake process)",
+        "Refund timeline",
+        "Exchange policy",
+        "'Satisfaction Guaranteed' emphasis"
+      ],
+      "priority": 20,
+      "passes": false,
+      "notes": "Phase 11.4"
+    },
+    {
+      "id": "US-021",
+      "title": "Responsive Design & Cross-Browser Testing",
+      "acceptanceCriteria": [
+        "Test all pages at mobile (320-480px)",
+        "Test all pages at tablet (768px)",
+        "Test all pages at desktop (1024px+)",
+        "Fix any layout issues",
+        "Ensure adequate touch targets on mobile",
+        "Test in Chrome, Firefox, Safari, Edge"
+      ],
+      "priority": 21,
+      "passes": false,
+      "notes": "Phase 12.1-12.2"
+    },
+    {
+      "id": "US-022",
+      "title": "Polish & Content Review",
+      "acceptanceCriteria": [
+        "Proofread all copy",
+        "Ensure consistent deadpan tone throughout",
+        "Verify all links work",
+        "Verify promo code 'AIForHumans' works for 10% off",
+        "Minify CSS and JavaScript",
+        "Add loading='lazy' to images below fold"
+      ],
+      "priority": 22,
+      "passes": false,
+      "notes": "Phase 12.3-12.4"
+    }
+  ]
+}

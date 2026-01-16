@@ -123,7 +123,8 @@
       // Product page init
       initProductPage();
     } else if (path.includes('cart.html')) {
-      // Cart page init - to be implemented in US-014
+      // Cart page init
+      initCartPage();
     } else if (path.includes('checkout.html')) {
       // Checkout page init - to be implemented in US-015
     } else if (path.includes('confirmation.html')) {
@@ -1451,6 +1452,373 @@
   }
 
   // ============================================
+  // CART PAGE INITIALIZATION
+  // ============================================
+
+  /**
+   * Initialize cart page functionality
+   */
+  function initCartPage() {
+    // Render cart items
+    renderCartPage();
+
+    // Initialize promo code functionality
+    initPromoCode();
+
+    // Listen for cart updates
+    document.addEventListener('cartUpdated', renderCartPage);
+  }
+
+  /**
+   * Render the entire cart page
+   */
+  function renderCartPage() {
+    const loading = document.getElementById('cart-loading');
+    const emptyState = document.getElementById('cart-empty');
+    const itemsContainer = document.getElementById('cart-items');
+    const summarySection = document.getElementById('cart-summary');
+    const continueSection = document.getElementById('cart-continue');
+
+    // Get cart data
+    if (typeof CartModule === 'undefined') {
+      if (loading) loading.hidden = true;
+      if (emptyState) emptyState.hidden = false;
+      return;
+    }
+
+    const cart = CartModule.getCart();
+    const summary = CartModule.getCartSummary();
+
+    // Hide loading
+    if (loading) loading.hidden = true;
+
+    // Update header count
+    const headerCount = document.getElementById('cart-header-count');
+    if (headerCount) {
+      const itemCount = summary.itemCount;
+      headerCount.textContent = itemCount === 1 ? '1 item' : `${itemCount} items`;
+    }
+
+    // Show empty state or cart items
+    if (cart.length === 0) {
+      if (emptyState) emptyState.hidden = false;
+      if (itemsContainer) itemsContainer.hidden = true;
+      if (summarySection) summarySection.hidden = true;
+      if (continueSection) continueSection.hidden = true;
+      return;
+    }
+
+    // Show cart items
+    if (emptyState) emptyState.hidden = true;
+    if (itemsContainer) itemsContainer.hidden = false;
+    if (summarySection) summarySection.hidden = false;
+    if (continueSection) continueSection.hidden = false;
+
+    // Render cart items
+    renderCartItems(cart);
+
+    // Render summary
+    renderCartSummary(summary);
+
+    // Update promo display
+    updatePromoDisplay();
+  }
+
+  /**
+   * Render cart items list
+   * @param {Array} cart - Cart items array
+   */
+  function renderCartItems(cart) {
+    const container = document.getElementById('cart-items');
+    if (!container) return;
+
+    container.innerHTML = cart.map(item => createCartItemHTML(item)).join('');
+
+    // Initialize quantity selectors
+    container.querySelectorAll('.quantity-selector').forEach(selector => {
+      initCartItemQuantity(selector);
+    });
+
+    // Initialize remove buttons
+    container.querySelectorAll('.cart-item-remove').forEach(btn => {
+      btn.addEventListener('click', handleRemoveItem);
+    });
+  }
+
+  /**
+   * Create HTML for a single cart item
+   * @param {Object} item - Cart item data
+   * @returns {string} HTML string
+   */
+  function createCartItemHTML(item) {
+    const lineTotal = item.price * item.quantity;
+
+    // Adjust image path for pages directory
+    let imagePath = item.image;
+    if (!imagePath.startsWith('../') && !imagePath.startsWith('http')) {
+      imagePath = '../' + imagePath;
+    }
+
+    return `
+      <article class="cart-item" data-cart-id="${item.cartId}">
+        <div class="cart-item-image">
+          <a href="product.html?id=${item.productId}">
+            <img src="${imagePath}" alt="${item.name}" loading="lazy">
+          </a>
+        </div>
+        <div class="cart-item-details">
+          <h3 class="cart-item-name">
+            <a href="product.html?id=${item.productId}">${item.name}</a>
+          </h3>
+          <p class="cart-item-variant">${item.color} / ${item.size}</p>
+          <p class="cart-item-price-mobile">${formatCurrency(item.price)}</p>
+          <div class="cart-item-actions">
+            <div class="cart-item-quantity">
+              <div class="quantity-selector quantity-selector-sm" data-cart-id="${item.cartId}">
+                <button type="button" class="quantity-btn" data-action="decrease" aria-label="Decrease quantity" ${item.quantity <= 1 ? 'disabled' : ''}>−</button>
+                <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="99" aria-label="Quantity">
+                <button type="button" class="quantity-btn" data-action="increase" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+            <button type="button" class="cart-item-remove" data-cart-id="${item.cartId}" aria-label="Remove ${item.name} from cart">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              Remove
+            </button>
+          </div>
+        </div>
+        <div class="cart-item-pricing">
+          <span class="cart-item-line-price">${formatCurrency(lineTotal)}</span>
+          ${item.quantity > 1 ? `<span class="cart-item-unit-price">${formatCurrency(item.price)} each</span>` : ''}
+        </div>
+      </article>
+    `;
+  }
+
+  /**
+   * Initialize quantity selector for cart item
+   * @param {HTMLElement} selector - Quantity selector element
+   */
+  function initCartItemQuantity(selector) {
+    const minusBtn = selector.querySelector('[data-action="decrease"]');
+    const plusBtn = selector.querySelector('[data-action="increase"]');
+    const input = selector.querySelector('.quantity-input');
+    const cartId = selector.dataset.cartId;
+
+    if (!minusBtn || !plusBtn || !input || !cartId) return;
+
+    function updateCartQuantity(newValue) {
+      const value = Math.max(1, Math.min(99, parseInt(newValue) || 1));
+      input.value = value;
+      minusBtn.disabled = value <= 1;
+      plusBtn.disabled = value >= 99;
+
+      // Update cart
+      if (typeof CartModule !== 'undefined') {
+        CartModule.updateQuantity(cartId, value);
+        updateCartBadge();
+        renderCartSummary(CartModule.getCartSummary());
+
+        // Update line price for this item
+        const cartItem = selector.closest('.cart-item');
+        if (cartItem) {
+          const item = CartModule.getCart().find(i => i.cartId === cartId);
+          if (item) {
+            const linePrice = cartItem.querySelector('.cart-item-line-price');
+            const unitPrice = cartItem.querySelector('.cart-item-unit-price');
+            if (linePrice) linePrice.textContent = formatCurrency(item.price * value);
+            if (unitPrice) {
+              if (value > 1) {
+                unitPrice.textContent = `${formatCurrency(item.price)} each`;
+                unitPrice.style.display = '';
+              } else {
+                unitPrice.style.display = 'none';
+              }
+            }
+          }
+        }
+      }
+    }
+
+    minusBtn.addEventListener('click', () => {
+      updateCartQuantity(parseInt(input.value) - 1);
+    });
+
+    plusBtn.addEventListener('click', () => {
+      updateCartQuantity(parseInt(input.value) + 1);
+    });
+
+    input.addEventListener('change', () => {
+      updateCartQuantity(input.value);
+    });
+
+    input.addEventListener('blur', () => {
+      if (input.value === '' || isNaN(parseInt(input.value))) {
+        updateCartQuantity(1);
+      }
+    });
+  }
+
+  /**
+   * Handle remove item button click
+   * @param {Event} e - Click event
+   */
+  function handleRemoveItem(e) {
+    const btn = e.currentTarget;
+    const cartId = btn.dataset.cartId;
+    const cartItem = btn.closest('.cart-item');
+
+    if (!cartId || typeof CartModule === 'undefined') return;
+
+    // Add exit animation
+    if (cartItem) {
+      cartItem.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+      cartItem.style.opacity = '0';
+      cartItem.style.transform = 'translateX(-20px)';
+    }
+
+    setTimeout(() => {
+      CartModule.removeFromCart(cartId);
+      updateCartBadge();
+      renderCartPage();
+    }, 200);
+  }
+
+  /**
+   * Render cart summary section
+   * @param {Object} summary - Cart summary data
+   */
+  function renderCartSummary(summary) {
+    const subtotalEl = document.getElementById('cart-subtotal');
+    const discountRow = document.getElementById('discount-row');
+    const discountEl = document.getElementById('cart-discount');
+    const totalEl = document.getElementById('cart-total');
+    const headerCount = document.getElementById('cart-header-count');
+
+    if (subtotalEl) subtotalEl.textContent = formatCurrency(summary.subtotal);
+
+    if (discountRow && discountEl) {
+      if (summary.discount > 0) {
+        discountRow.hidden = false;
+        discountEl.textContent = `-${formatCurrency(summary.discount)}`;
+      } else {
+        discountRow.hidden = true;
+      }
+    }
+
+    if (totalEl) totalEl.textContent = formatCurrency(summary.total);
+
+    if (headerCount) {
+      headerCount.textContent = summary.itemCount === 1 ? '1 item' : `${summary.itemCount} items`;
+    }
+  }
+
+  /**
+   * Initialize promo code functionality
+   */
+  function initPromoCode() {
+    const input = document.getElementById('promo-code');
+    const applyBtn = document.getElementById('apply-promo');
+    const removeBtn = document.getElementById('remove-promo');
+
+    if (applyBtn) {
+      applyBtn.addEventListener('click', handleApplyPromo);
+    }
+
+    if (input) {
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleApplyPromo();
+        }
+      });
+    }
+
+    if (removeBtn) {
+      removeBtn.addEventListener('click', handleRemovePromo);
+    }
+  }
+
+  /**
+   * Handle apply promo code
+   */
+  function handleApplyPromo() {
+    const input = document.getElementById('promo-code');
+    const messageEl = document.getElementById('promo-message');
+
+    if (!input || typeof CartModule === 'undefined') return;
+
+    const code = input.value.trim();
+    if (!code) {
+      showPromoMessage('Please enter a promo code', 'error');
+      return;
+    }
+
+    const result = CartModule.applyPromoCode(code);
+
+    if (result.success) {
+      showPromoMessage('', '');
+      updatePromoDisplay();
+      renderCartSummary(CartModule.getCartSummary());
+      input.value = '';
+    } else {
+      showPromoMessage(result.message || 'Invalid promo code', 'error');
+    }
+  }
+
+  /**
+   * Handle remove promo code
+   */
+  function handleRemovePromo() {
+    if (typeof CartModule === 'undefined') return;
+
+    CartModule.removePromoCode();
+    updatePromoDisplay();
+    renderCartSummary(CartModule.getCartSummary());
+    showPromoMessage('', '');
+  }
+
+  /**
+   * Show promo code message
+   * @param {string} message - Message text
+   * @param {string} type - 'success' or 'error'
+   */
+  function showPromoMessage(message, type) {
+    const messageEl = document.getElementById('promo-message');
+    if (!messageEl) return;
+
+    messageEl.textContent = message;
+    messageEl.className = 'cart-promo-message';
+    if (type) {
+      messageEl.classList.add(type);
+    }
+  }
+
+  /**
+   * Update promo display based on applied promo
+   */
+  function updatePromoDisplay() {
+    const inputGroup = document.querySelector('.cart-promo-input-group');
+    const appliedSection = document.getElementById('promo-applied');
+    const appliedCodeText = document.getElementById('applied-code-text');
+
+    if (typeof CartModule === 'undefined') return;
+
+    const promo = CartModule.getAppliedPromo();
+
+    if (promo) {
+      if (inputGroup) inputGroup.style.display = 'none';
+      if (appliedSection) appliedSection.hidden = false;
+      if (appliedCodeText) appliedCodeText.textContent = promo.toUpperCase();
+    } else {
+      if (inputGroup) inputGroup.style.display = 'flex';
+      if (appliedSection) appliedSection.hidden = true;
+    }
+  }
+
+  // ============================================
   // STAR RATING COMPONENT
   // ============================================
 
@@ -2152,7 +2520,9 @@
     // Shop page
     initShopPage: initShopPage,
     // Product page
-    initProductPage: initProductPage
+    initProductPage: initProductPage,
+    // Cart page
+    initCartPage: initCartPage
   };
 
 })();
