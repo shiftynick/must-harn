@@ -329,7 +329,7 @@
         "Test in Chrome, Firefox, Safari, Edge"
       ],
       "priority": 21,
-      "passes": false,
+      "passes": true,
       "notes": "Phase 12.1-12.2"
     },
     {

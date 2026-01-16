@@ -4158,3 +4158,293 @@
   color: var(--color-primary-dark, #5a252c);
   text-decoration: underline;
 }
+
+/* ============================================
+   RESPONSIVE DESIGN IMPROVEMENTS
+   Mobile Touch Targets & Cross-Browser Fixes
+   ============================================ */
+
+/*
+ * US-021: Responsive Design & Cross-Browser Testing
+ * Ensures minimum 44px touch targets on mobile for accessibility
+ * Fixes common cross-browser issues
+ */
+
+/* Mobile-First Touch Target Improvements */
+@media (max-width: 767px) {
+  /* Ensure buttons have adequate touch targets (44px minimum) */
+  .btn {
+    min-height: 44px;
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .btn-sm {
+    min-height: 40px;
+  }
+
+  /* Form inputs need adequate touch targets */
+  .form-input,
+  .form-select,
+  .form-textarea {
+    min-height: 44px;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+
+  /* Filter size labels */
+  .filter-size-label {
+    min-height: 44px;
+    height: auto;
+  }
+
+  /* Filter checkboxes need larger click areas */
+  .filter-checkbox {
+    min-height: 44px;
+  }
+
+  .filter-checkbox-input {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Navigation links need adequate touch targets */
+  .nav-mobile-link {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Quantity buttons */
+  .quantity-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* FAQ accordion buttons */
+  .faq-question {
+    min-height: 56px;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  /* Cart item remove button */
+  .cart-item-remove {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Social links in footer */
+  .social-link {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Product card quick add button */
+  .product-card-quick-add .btn {
+    min-height: 44px;
+  }
+
+  /* Pagination links */
+  .pagination-link {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Close buttons on modals */
+  .modal-close {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Toast close button */
+  .toast-close {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Returns step numbers */
+  .returns-step-number {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Small Mobile Adjustments (320-480px) */
+@media (max-width: 480px) {
+  /* Reduce padding on very small screens to fit content */
+  .container {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+  }
+
+  /* Hero section text sizing */
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  /* Category cards stack better */
+  .category-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .category-card {
+    min-height: 160px;
+  }
+
+  /* Product grid single column on very small screens */
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Shop toolbar stacks on very small screens */
+  .shop-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  /* Cart item layout adjustments */
+  .cart-item {
+    grid-template-columns: 60px 1fr;
+    gap: var(--space-3);
+  }
+
+  .cart-item-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Checkout layout */
+  .checkout-layout {
+    gap: var(--space-6);
+  }
+
+  /* Confirmation items */
+  .confirmation-item {
+    grid-template-columns: 60px 1fr;
+  }
+
+  /* About page team cards */
+  .about-team-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: var(--text-xl);
+  }
+
+  /* FAQ questions padding */
+  .faq-question {
+    padding: var(--space-4);
+  }
+
+  .faq-question span {
+    font-size: var(--text-sm);
+  }
+
+  /* Contact layout improvements */
+  .contact-form-section {
+    padding: var(--space-5);
+  }
+
+  /* Returns guarantee banner */
+  .returns-guarantee {
+    padding: var(--space-6);
+  }
+
+  .returns-guarantee-icon {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Cross-Browser Fixes */
+
+/* Fix for Safari flexbox gap */
+@supports not (gap: 1rem) {
+  .flex > * + * {
+    margin-left: var(--space-4);
+  }
+
+  .flex-col > * + * {
+    margin-top: var(--space-4);
+  }
+}
+
+/* Fix for input appearance in iOS */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: var(--radius-md);
+}
+
+/* Fix for button appearance across browsers */
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Smooth scrolling for all browsers that support it */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Fix for text rendering */
+body {
+  text-rendering: optimizeLegibility;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn-primary {
+    border: 2px solid var(--color-white);
+  }
+
+  .btn-outline {
+    border-width: 2px;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    border-width: 2px;
+  }
+
+  .product-card {
+    border: 1px solid var(--color-gray-400);
+  }
+}
+
+/* Print styles for checkout/confirmation */
+@media print {
+  .promo-banner,
+  .site-header,
+  .site-footer,
+  .btn,
+  .nav-mobile {
+    display: none !important;
+  }
+
+  .confirmation-page {
+    padding: 0;
+  }
+
+  .confirmation-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+  }
+}

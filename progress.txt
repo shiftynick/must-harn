@@ -576,3 +576,24 @@ Started: 2024-01-15
   - Satisfaction guarantee banner at top reinforces trust before reading policy details
 
 ---
+## 2026-01-16 - US-021
+
+- What was implemented:
+  - Added comprehensive responsive design improvements to `css/pages.css`
+  - Mobile touch target fixes: minimum 44px height for buttons, form inputs, and interactive elements
+  - Form input font-size set to 16px on mobile to prevent iOS zoom on focus
+  - Small mobile (320-480px) specific adjustments: reduced container padding, single-column product grid, stacked shop toolbar, smaller cart/confirmation item images
+  - Cross-browser fixes: Safari flexbox gap fallback, iOS input appearance reset, button appearance normalization
+  - Accessibility improvements: high contrast mode support with thicker borders
+  - Print styles for checkout/confirmation pages
+- Files changed:
+  - css/pages.css (extended - ~290 lines of responsive improvements)
+  - tasks.json (updated passes: true for US-021)
+- **Learnings:**
+  - Touch targets should be minimum 44x44px per WCAG guidelines for mobile accessibility
+  - iOS zooms on form focus when font-size < 16px - always use 16px minimum for inputs
+  - Safari older versions don't support flexbox gap - use margin fallback with @supports not
+  - High contrast mode (@media prefers-contrast: high) is important for accessibility
+  - Print styles should hide navigation and interactive elements, keep content readable
+
+---
