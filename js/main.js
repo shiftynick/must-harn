@@ -117,7 +117,8 @@
       // Landing page init
       initLandingPage();
     } else if (path.includes('shop.html')) {
-      // Shop page init - to be implemented in US-012
+      // Shop page init
+      initShopPage();
     } else if (path.includes('product.html')) {
       // Product page init - to be implemented in US-013
     } else if (path.includes('cart.html')) {
@@ -234,6 +235,598 @@
         });
       }
     });
+  }
+
+  // ============================================
+  // SHOP PAGE INITIALIZATION
+  // ============================================
+
+  // Shop page state
+  let shopState = {
+    allProducts: [],
+    filteredProducts: [],
+    filters: null,
+    filterOptions: null
+  };
+
+  /**
+   * Initialize shop page functionality
+   */
+  async function initShopPage() {
+    // Load products
+    await loadShopProducts();
+
+    // Initialize filter options
+    await initShopFilterOptions();
+
+    // Parse initial filters from URL
+    shopState.filters = FiltersModule.parseFiltersFromURL();
+
+    // Apply initial filters and render
+    applyShopFilters();
+
+    // Set up filter event listeners
+    initShopFilterListeners();
+
+    // Set up sort listeners
+    initShopSortListeners();
+
+    // Set up mobile filter toggle
+    initMobileFilterToggle();
+
+    // Set up history listener for back/forward
+    FiltersModule.setupHistoryListener(handleHistoryNavigation);
+  }
+
+  /**
+   * Load all products for shop page
+   */
+  async function loadShopProducts() {
+    try {
+      if (typeof ProductsModule !== 'undefined') {
+        shopState.allProducts = await ProductsModule.loadProducts();
+      }
+    } catch (error) {
+      console.error('Error loading shop products:', error);
+      shopState.allProducts = [];
+    }
+  }
+
+  /**
+   * Initialize filter options from product data
+   */
+  async function initShopFilterOptions() {
+    if (typeof FiltersModule === 'undefined' || typeof ProductsModule === 'undefined') {
+      return;
+    }
+
+    try {
+      shopState.filterOptions = await FiltersModule.getAvailableFilterOptions();
+
+      // Populate category filters
+      const categoryContainer = document.getElementById('category-filters');
+      if (categoryContainer && shopState.filterOptions.categories) {
+        const categoryCounts = FiltersModule.getCategoryProductCounts(shopState.allProducts);
+        categoryContainer.innerHTML = shopState.filterOptions.categories.map(category => `
+          <label class="filter-checkbox">
+            <input type="checkbox" name="category" value="${category}">
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-label">${category}</span>
+            <span class="checkbox-count">(${categoryCounts[category] || 0})</span>
+          </label>
+        `).join('');
+      }
+
+      // Populate color filters
+      const colorContainer = document.getElementById('color-filters');
+      if (colorContainer && shopState.filterOptions.colors) {
+        colorContainer.innerHTML = shopState.filterOptions.colors.map(color => `
+          <label class="filter-color" title="${color}">
+            <input type="checkbox" name="color" value="${color}">
+            <span class="filter-color-swatch" style="background-color: ${getColorHex(color)}"></span>
+          </label>
+        `).join('');
+      }
+
+      // Populate size filters
+      const sizeContainer = document.getElementById('size-filters');
+      if (sizeContainer && shopState.filterOptions.sizes) {
+        sizeContainer.innerHTML = shopState.filterOptions.sizes.map(size => `
+          <label class="filter-size">
+            <input type="checkbox" name="size" value="${size}">
+            <span class="filter-size-label">${size}</span>
+          </label>
+        `).join('');
+      }
+    } catch (error) {
+      console.error('Error initializing filter options:', error);
+    }
+  }
+
+  /**
+   * Get hex color code from color name
+   */
+  function getColorHex(colorName) {
+    const colorMap = {
+      'Black': '#1a1a1a',
+      'Mahogany': '#4e2528',
+      'Silver': '#c0c0c0',
+      'Onyx': '#353839',
+      'Walnut': '#5d432c',
+      'Chrome': '#dbe4eb',
+      'Matte Black': '#28282B',
+      'Rose Gold': '#b76e79',
+      'Classic Black': '#1a1a1a',
+      'Racing Red': '#d12836',
+      'Ocean Blue': '#006994',
+      'Neon Green': '#39ff14',
+      'White': '#ffffff',
+      'Pink': '#ffc0cb',
+      'Camo': '#78866b',
+      'Tie-Dye': 'linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3)',
+      'Yellow': '#ffd93d',
+      'Orange': '#ff6b35',
+      'Professional Black': '#1a1a1a',
+      'Executive Brown': '#654321',
+      'Stealth Black': '#1a1a1a',
+      'Champagne': '#f7e7ce',
+      'Tan': '#d2b48c',
+      'Gray': '#808080',
+      'Midnight Blue': '#191970',
+      'Lavender': '#e6e6fa',
+      'Charcoal': '#36454f',
+      'Navy': '#000080',
+      'Silk White': '#fffff0',
+      'Blush': '#de5d83',
+      'Slate': '#708090'
+    };
+    return colorMap[colorName] || '#808080';
+  }
+
+  /**
+   * Initialize filter event listeners
+   */
+  function initShopFilterListeners() {
+    const filterForm = document.getElementById('filter-form');
+    if (!filterForm) return;
+
+    // Handle checkbox changes
+    filterForm.addEventListener('change', function(e) {
+      if (e.target.type === 'checkbox') {
+        updateFiltersFromForm();
+        applyShopFilters();
+      }
+    });
+
+    // Handle clear filters button
+    const clearBtn = document.getElementById('clear-filters');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', clearShopFilters);
+    }
+
+    // Handle reset button in empty state
+    const resetBtn = document.getElementById('reset-filters-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', clearShopFilters);
+    }
+  }
+
+  /**
+   * Initialize sort dropdown listeners
+   */
+  function initShopSortListeners() {
+    const sortDesktop = document.getElementById('sort-desktop');
+    const sortMobile = document.getElementById('sort-mobile');
+
+    function handleSortChange(e) {
+      shopState.filters.sort = e.target.value;
+
+      // Sync both dropdowns
+      if (sortDesktop) sortDesktop.value = e.target.value;
+      if (sortMobile) sortMobile.value = e.target.value;
+
+      applyShopFilters();
+    }
+
+    if (sortDesktop) {
+      sortDesktop.addEventListener('change', handleSortChange);
+    }
+    if (sortMobile) {
+      sortMobile.addEventListener('change', handleSortChange);
+    }
+  }
+
+  /**
+   * Initialize mobile filter toggle
+   */
+  function initMobileFilterToggle() {
+    const filterToggle = document.getElementById('filter-toggle');
+    const filterSidebar = document.getElementById('filter-sidebar');
+    const sidebarClose = document.getElementById('sidebar-close');
+
+    if (!filterToggle || !filterSidebar) return;
+
+    // Create overlay if it doesn't exist
+    let overlay = document.querySelector('.sidebar-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'sidebar-overlay';
+      document.body.appendChild(overlay);
+    }
+
+    function openSidebar() {
+      filterSidebar.classList.add('is-open');
+      overlay.classList.add('is-visible');
+      filterToggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+      filterSidebar.classList.remove('is-open');
+      overlay.classList.remove('is-visible');
+      filterToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    filterToggle.addEventListener('click', openSidebar);
+
+    if (sidebarClose) {
+      sidebarClose.addEventListener('click', closeSidebar);
+    }
+
+    overlay.addEventListener('click', closeSidebar);
+
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && filterSidebar.classList.contains('is-open')) {
+        closeSidebar();
+      }
+    });
+  }
+
+  /**
+   * Update filters state from form inputs
+   */
+  function updateFiltersFromForm() {
+    const filterForm = document.getElementById('filter-form');
+    if (!filterForm) return;
+
+    // Reset filter arrays
+    shopState.filters.categories = [];
+    shopState.filters.colors = [];
+    shopState.filters.sizes = [];
+    shopState.filters.minPrice = null;
+    shopState.filters.maxPrice = null;
+    shopState.filters.inStockOnly = false;
+
+    // Get all checked category checkboxes
+    const categoryChecks = filterForm.querySelectorAll('input[name="category"]:checked');
+    categoryChecks.forEach(check => {
+      shopState.filters.categories.push(check.value);
+    });
+
+    // Get price range selections
+    const priceChecks = filterForm.querySelectorAll('input[name="priceRange"]:checked');
+    if (priceChecks.length > 0) {
+      let minPrices = [];
+      let maxPrices = [];
+      priceChecks.forEach(check => {
+        const [min, max] = check.value.split('-').map(Number);
+        minPrices.push(min);
+        maxPrices.push(max);
+      });
+      shopState.filters.minPrice = Math.min(...minPrices);
+      shopState.filters.maxPrice = Math.max(...maxPrices);
+    }
+
+    // Get color selections
+    const colorChecks = filterForm.querySelectorAll('input[name="color"]:checked');
+    colorChecks.forEach(check => {
+      shopState.filters.colors.push(check.value);
+    });
+
+    // Get size selections
+    const sizeChecks = filterForm.querySelectorAll('input[name="size"]:checked');
+    sizeChecks.forEach(check => {
+      shopState.filters.sizes.push(check.value);
+    });
+
+    // Get in-stock only
+    const inStockCheck = document.getElementById('in-stock-filter');
+    if (inStockCheck) {
+      shopState.filters.inStockOnly = inStockCheck.checked;
+    }
+  }
+
+  /**
+   * Apply current filters and render products
+   */
+  function applyShopFilters() {
+    if (typeof FiltersModule === 'undefined') return;
+
+    // Apply filters to products
+    shopState.filteredProducts = FiltersModule.applyFiltersToProducts(
+      shopState.allProducts,
+      shopState.filters
+    );
+
+    // Update URL
+    FiltersModule.updateURLWithFilters(shopState.filters, true);
+
+    // Render products
+    renderShopProducts();
+
+    // Update UI elements
+    updateResultsCount();
+    updateActiveFiltersDisplay();
+    updateFilterCountBadge();
+    syncFormWithFilters();
+  }
+
+  /**
+   * Render products to the grid
+   */
+  function renderShopProducts() {
+    const grid = document.getElementById('product-grid');
+    const emptyState = document.getElementById('shop-empty');
+
+    if (!grid) return;
+
+    if (shopState.filteredProducts.length === 0) {
+      grid.hidden = true;
+      if (emptyState) emptyState.hidden = false;
+      return;
+    }
+
+    grid.hidden = false;
+    if (emptyState) emptyState.hidden = true;
+
+    grid.innerHTML = shopState.filteredProducts.map(product => createProductCardShop(product)).join('');
+  }
+
+  /**
+   * Create a product card HTML for shop page
+   * Uses relative paths since we're in /pages/
+   */
+  function createProductCardShop(product) {
+    const badges = [];
+    if (product.isNew) {
+      badges.push('<span class="badge badge-new">New</span>');
+    }
+    if (product.salesCount > 50) {
+      badges.push('<span class="badge badge-bestseller">Bestseller</span>');
+    }
+
+    const outOfStockOverlay = !product.inStock ? `
+      <div class="product-card-overlay">
+        <span class="product-card-overlay-text">Out of Stock</span>
+      </div>
+    ` : '';
+
+    const quickAddBtn = product.inStock ? `
+      <div class="product-card-quick-add">
+        <button class="btn btn-primary" data-quick-add="${product.id}">Add to Cart</button>
+      </div>
+    ` : '';
+
+    // Use relative image path for pages folder
+    const imagePath = product.images[0].startsWith('../') ? product.images[0] : '../' + product.images[0];
+
+    return `
+      <article class="product-card" data-product-id="${product.id}">
+        <div class="product-card-image">
+          ${badges.length ? `<div class="product-card-badges">${badges.join('')}</div>` : ''}
+          <a href="product.html?id=${product.id}">
+            <img src="${imagePath}" alt="${product.name}" loading="lazy">
+          </a>
+          ${outOfStockOverlay}
+          ${quickAddBtn}
+        </div>
+        <div class="product-card-body">
+          <span class="product-card-category">${product.category}</span>
+          <h3 class="product-card-title">
+            <a href="product.html?id=${product.id}">${product.name}</a>
+          </h3>
+          <div class="product-card-rating">
+            ${createStarRating(product.rating, 'sm')}
+            <span class="product-card-rating-count">(${product.reviewCount})</span>
+          </div>
+          <div class="product-card-price">
+            <span class="price">${formatCurrency(product.price)}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  /**
+   * Update results count display
+   */
+  function updateResultsCount() {
+    const countEl = document.getElementById('results-count');
+    if (!countEl) return;
+
+    const count = shopState.filteredProducts.length;
+    const total = shopState.allProducts.length;
+
+    if (count === total) {
+      countEl.textContent = `Showing all ${total} products`;
+    } else {
+      countEl.textContent = `Showing ${count} of ${total} products`;
+    }
+  }
+
+  /**
+   * Update active filters display
+   */
+  function updateActiveFiltersDisplay() {
+    const container = document.getElementById('active-filters');
+    const list = document.getElementById('active-filters-list');
+
+    if (!container || !list) return;
+
+    if (!FiltersModule.hasActiveFilters(shopState.filters)) {
+      container.hidden = true;
+      return;
+    }
+
+    container.hidden = false;
+    const tags = [];
+
+    // Categories
+    shopState.filters.categories.forEach(category => {
+      tags.push(createActiveFilterTag('category', category, category));
+    });
+
+    // Price range
+    if (shopState.filters.minPrice !== null || shopState.filters.maxPrice !== null) {
+      const priceLabel = `$${shopState.filters.minPrice || 0} - $${shopState.filters.maxPrice || '∞'}`;
+      tags.push(createActiveFilterTag('price', 'price', priceLabel));
+    }
+
+    // Colors
+    shopState.filters.colors.forEach(color => {
+      tags.push(createActiveFilterTag('color', color, color));
+    });
+
+    // Sizes
+    shopState.filters.sizes.forEach(size => {
+      tags.push(createActiveFilterTag('size', size, size));
+    });
+
+    // In stock only
+    if (shopState.filters.inStockOnly) {
+      tags.push(createActiveFilterTag('inStock', 'inStock', 'In Stock Only'));
+    }
+
+    list.innerHTML = tags.join('');
+
+    // Add click handlers for removing filters
+    list.querySelectorAll('.active-filter-remove').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const filterType = this.getAttribute('data-filter-type');
+        const filterValue = this.getAttribute('data-filter-value');
+        removeFilter(filterType, filterValue);
+      });
+    });
+  }
+
+  /**
+   * Create active filter tag HTML
+   */
+  function createActiveFilterTag(type, value, label) {
+    return `
+      <span class="active-filter-tag">
+        ${label}
+        <button class="active-filter-remove" data-filter-type="${type}" data-filter-value="${value}" aria-label="Remove filter">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </span>
+    `;
+  }
+
+  /**
+   * Remove a specific filter
+   */
+  function removeFilter(type, value) {
+    switch (type) {
+      case 'category':
+        shopState.filters.categories = shopState.filters.categories.filter(c => c !== value);
+        break;
+      case 'price':
+        shopState.filters.minPrice = null;
+        shopState.filters.maxPrice = null;
+        break;
+      case 'color':
+        shopState.filters.colors = shopState.filters.colors.filter(c => c !== value);
+        break;
+      case 'size':
+        shopState.filters.sizes = shopState.filters.sizes.filter(s => s !== value);
+        break;
+      case 'inStock':
+        shopState.filters.inStockOnly = false;
+        break;
+    }
+
+    applyShopFilters();
+  }
+
+  /**
+   * Update filter count badge on mobile toggle
+   */
+  function updateFilterCountBadge() {
+    const badge = document.getElementById('filter-count');
+    if (!badge) return;
+
+    const count = FiltersModule.getActiveFilterCount(shopState.filters);
+    if (count > 0) {
+      badge.textContent = count;
+      badge.hidden = false;
+    } else {
+      badge.hidden = true;
+    }
+  }
+
+  /**
+   * Sync form checkboxes with current filter state
+   */
+  function syncFormWithFilters() {
+    const filterForm = document.getElementById('filter-form');
+    if (!filterForm) return;
+
+    // Reset all checkboxes first
+    filterForm.querySelectorAll('input[type="checkbox"]').forEach(check => {
+      check.checked = false;
+    });
+
+    // Check category boxes
+    shopState.filters.categories.forEach(category => {
+      const check = filterForm.querySelector(`input[name="category"][value="${category}"]`);
+      if (check) check.checked = true;
+    });
+
+    // Check color boxes
+    shopState.filters.colors.forEach(color => {
+      const check = filterForm.querySelector(`input[name="color"][value="${color}"]`);
+      if (check) check.checked = true;
+    });
+
+    // Check size boxes
+    shopState.filters.sizes.forEach(size => {
+      const check = filterForm.querySelector(`input[name="size"][value="${size}"]`);
+      if (check) check.checked = true;
+    });
+
+    // Check in-stock
+    const inStockCheck = document.getElementById('in-stock-filter');
+    if (inStockCheck) {
+      inStockCheck.checked = shopState.filters.inStockOnly;
+    }
+
+    // Sync sort dropdowns
+    const sortDesktop = document.getElementById('sort-desktop');
+    const sortMobile = document.getElementById('sort-mobile');
+    if (sortDesktop) sortDesktop.value = shopState.filters.sort;
+    if (sortMobile) sortMobile.value = shopState.filters.sort;
+  }
+
+  /**
+   * Clear all filters
+   */
+  function clearShopFilters() {
+    shopState.filters = FiltersModule.getDefaultFilters();
+    applyShopFilters();
+  }
+
+  /**
+   * Handle browser back/forward navigation
+   */
+  function handleHistoryNavigation(filters) {
+    shopState.filters = filters;
+    applyShopFilters();
   }
 
   // ============================================
@@ -934,7 +1527,9 @@
     createProductCard: createProductCard,
     // Landing page
     initLandingPage: initLandingPage,
-    loadFeaturedProducts: loadFeaturedProducts
+    loadFeaturedProducts: loadFeaturedProducts,
+    // Shop page
+    initShopPage: initShopPage
   };
 
 })();
