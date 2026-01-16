@@ -108,27 +108,31 @@
 
   /**
    * Determine current page and run page-specific initialization
+   * Note: Checks for both with/without .html extension to support clean URLs
    */
   function initCurrentPage() {
     const path = window.location.pathname;
 
+    // Helper to check if path matches a page (with or without .html)
+    const isPage = (pageName) => path.includes(pageName + '.html') || path.endsWith('/' + pageName) || path.endsWith('/pages/' + pageName);
+
     // Page-specific initialization
-    if (path.endsWith('/') || path.endsWith('index.html') || path === '') {
+    if (path.endsWith('/') || path.endsWith('index.html') || path === '' || path === '/index') {
       // Landing page init
       initLandingPage();
-    } else if (path.includes('shop.html')) {
+    } else if (isPage('shop')) {
       // Shop page init
       initShopPage();
-    } else if (path.includes('product.html')) {
+    } else if (isPage('product')) {
       // Product page init
       initProductPage();
-    } else if (path.includes('cart.html')) {
+    } else if (isPage('cart')) {
       // Cart page init
       initCartPage();
-    } else if (path.includes('checkout.html')) {
+    } else if (isPage('checkout')) {
       // Checkout page init
       initCheckoutPage();
-    } else if (path.includes('confirmation.html')) {
+    } else if (isPage('confirmation')) {
       // Confirmation page init - to be implemented in US-016
     }
   }

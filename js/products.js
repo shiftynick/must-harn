@@ -142,11 +142,11 @@ function filterProducts(products, filters = {}) {
     );
   }
 
-  // Filter by price range
-  if (filters.minPrice !== undefined) {
+  // Filter by price range (check for null and undefined)
+  if (filters.minPrice != null) {
     filtered = filtered.filter(product => product.price >= filters.minPrice);
   }
-  if (filters.maxPrice !== undefined) {
+  if (filters.maxPrice != null) {
     filtered = filtered.filter(product => product.price <= filters.maxPrice);
   }
 
