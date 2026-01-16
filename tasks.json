@@ -257,7 +257,7 @@
         "Estimated delivery message (3-5 business days)"
       ],
       "priority": 16,
-      "passes": false,
+      "passes": true,
       "notes": "Phase 10"
     },
     {

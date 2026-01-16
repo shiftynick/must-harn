@@ -133,7 +133,8 @@
       // Checkout page init
       initCheckoutPage();
     } else if (isPage('confirmation')) {
-      // Confirmation page init - to be implemented in US-016
+      // Confirmation page init
+      initConfirmationPage();
     }
   }
 
@@ -2183,6 +2184,195 @@
         submitBtn.disabled = false;
       }
     }
+  }
+
+  // ============================================
+  // CONFIRMATION PAGE INITIALIZATION
+  // ============================================
+
+  /**
+   * Initialize confirmation page functionality
+   */
+  function initConfirmationPage() {
+    const loadingEl = document.getElementById('confirmation-loading');
+    const errorEl = document.getElementById('confirmation-error');
+    const contentEl = document.getElementById('confirmation-content');
+
+    if (!loadingEl || !errorEl || !contentEl) return;
+
+    // Get order number from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderNumber = urlParams.get('order');
+
+    if (!orderNumber) {
+      showConfirmationError(loadingEl, errorEl, contentEl);
+      return;
+    }
+
+    // Try to get order from localStorage
+    if (typeof CheckoutModule === 'undefined' || !CheckoutModule.getOrderByNumber) {
+      showConfirmationError(loadingEl, errorEl, contentEl);
+      return;
+    }
+
+    const order = CheckoutModule.getOrderByNumber(orderNumber);
+
+    if (!order) {
+      showConfirmationError(loadingEl, errorEl, contentEl);
+      return;
+    }
+
+    // Render order details
+    renderConfirmationPage(order, loadingEl, errorEl, contentEl);
+  }
+
+  /**
+   * Show confirmation error state
+   * @param {HTMLElement} loadingEl - Loading element
+   * @param {HTMLElement} errorEl - Error element
+   * @param {HTMLElement} contentEl - Content element
+   */
+  function showConfirmationError(loadingEl, errorEl, contentEl) {
+    loadingEl.hidden = true;
+    errorEl.hidden = false;
+    contentEl.hidden = true;
+  }
+
+  /**
+   * Render confirmation page with order data
+   * @param {Object} order - Order object
+   * @param {HTMLElement} loadingEl - Loading element
+   * @param {HTMLElement} errorEl - Error element
+   * @param {HTMLElement} contentEl - Content element
+   */
+  function renderConfirmationPage(order, loadingEl, errorEl, contentEl) {
+    // Hide loading, show content
+    loadingEl.hidden = true;
+    errorEl.hidden = true;
+    contentEl.hidden = false;
+
+    // Populate order number
+    const orderNumberEl = document.getElementById('order-number');
+    if (orderNumberEl) {
+      orderNumberEl.textContent = order.orderNumber;
+    }
+
+    // Populate email
+    const orderEmailEl = document.getElementById('order-email');
+    if (orderEmailEl && order.contact) {
+      orderEmailEl.textContent = order.contact.email;
+    }
+
+    // Populate shipping address
+    const shippingAddressEl = document.getElementById('shipping-address');
+    if (shippingAddressEl && order.shipping) {
+      const s = order.shipping;
+      shippingAddressEl.innerHTML = `
+        <div class="confirmation-address-name">${s.firstName} ${s.lastName}</div>
+        <div>${s.address1}</div>
+        ${s.address2 ? `<div>${s.address2}</div>` : ''}
+        <div>${s.city}, ${s.state} ${s.zipCode}</div>
+        <div>${getCountryName(s.country)}</div>
+      `;
+    }
+
+    // Populate payment method
+    const paymentMethodEl = document.getElementById('payment-method');
+    if (paymentMethodEl && order.payment) {
+      const p = order.payment;
+      if (p.method === 'Invoice on Delivery' || p.cardLast4 === '0000') {
+        paymentMethodEl.innerHTML = `
+          <div class="confirmation-payment-method">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+            Invoice on Delivery
+          </div>
+          <div class="confirmation-payment-card">Payment due upon receipt</div>
+        `;
+      } else {
+        paymentMethodEl.innerHTML = `
+          <div class="confirmation-payment-method">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+            Credit Card
+          </div>
+          <div class="confirmation-payment-card">**** **** **** ${p.cardLast4}</div>
+        `;
+      }
+    }
+
+    // Populate order items
+    const orderItemsEl = document.getElementById('order-items');
+    if (orderItemsEl && order.items) {
+      orderItemsEl.innerHTML = order.items.map(item => createConfirmationItemHTML(item)).join('');
+    }
+
+    // Populate totals
+    if (order.totals) {
+      const subtotalEl = document.getElementById('order-subtotal');
+      const totalEl = document.getElementById('order-total');
+      const discountRow = document.getElementById('discount-row');
+      const discountEl = document.getElementById('order-discount');
+      const promoCodeEl = document.getElementById('order-promo-code');
+
+      if (subtotalEl) subtotalEl.textContent = formatCurrency(order.totals.subtotal);
+      if (totalEl) totalEl.textContent = formatCurrency(order.totals.total);
+
+      if (discountRow && order.totals.discount > 0) {
+        discountRow.hidden = false;
+        if (discountEl) discountEl.textContent = `-${formatCurrency(order.totals.discount)}`;
+        if (promoCodeEl) promoCodeEl.textContent = order.totals.promoCode || 'PROMO';
+      }
+    }
+  }
+
+  /**
+   * Create confirmation item HTML
+   * @param {Object} item - Order item
+   * @returns {string} HTML string
+   */
+  function createConfirmationItemHTML(item) {
+    let imagePath = item.image || '';
+    if (imagePath && !imagePath.startsWith('../') && !imagePath.startsWith('http')) {
+      imagePath = '../' + imagePath;
+    }
+
+    return `
+      <div class="confirmation-item">
+        <div class="confirmation-item-image">
+          <img src="${imagePath}" alt="${item.name}" loading="lazy">
+        </div>
+        <div class="confirmation-item-details">
+          <div class="confirmation-item-name">${item.name}</div>
+          <div class="confirmation-item-meta">${item.color} / ${item.size}</div>
+          <div class="confirmation-item-qty">Qty: ${item.quantity}</div>
+        </div>
+        <div class="confirmation-item-price">${formatCurrency(item.price * item.quantity)}</div>
+      </div>
+    `;
+  }
+
+  /**
+   * Get country name from country code
+   * @param {string} code - Country code
+   * @returns {string} Country name
+   */
+  function getCountryName(code) {
+    const countries = {
+      'US': 'United States',
+      'CA': 'Canada',
+      'UK': 'United Kingdom',
+      'AU': 'Australia',
+      'DE': 'Germany',
+      'FR': 'France',
+      'NL': 'Netherlands',
+      'OTHER': 'International'
+    };
+    return countries[code] || code || 'United States';
   }
 
   // ============================================
