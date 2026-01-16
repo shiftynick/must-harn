@@ -261,7 +261,7 @@ $ProductPrompts = @{
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ImageGenScript = Join-Path $ScriptDir "gemini-image-gen.ps1"
-$OutputDir = Join-Path (Join-Path $ScriptDir "images") "products"
+$OutputDir = Join-Path (Join-Path $ScriptDir "images") "products-v3"
 
 # Ensure output directory exists
 if (-not (Test-Path $OutputDir)) {

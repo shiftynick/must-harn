@@ -46,6 +46,43 @@
   }
 
   // ============================================
+  // FAQ ACCORDION
+  // ============================================
+
+  /**
+   * Initialize FAQ accordion functionality
+   */
+  function initFaqAccordion() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+
+    if (!faqQuestions.length) return;
+
+    faqQuestions.forEach(function(question) {
+      question.addEventListener('click', function() {
+        const faqItem = this.closest('.faq-item');
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        // Close all other accordions in the same section
+        const parent = this.closest('.faq-accordion');
+        if (parent) {
+          parent.querySelectorAll('.faq-item').forEach(function(item) {
+            if (item !== faqItem) {
+              item.classList.remove('is-open');
+              item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+
+        // Toggle current accordion
+        this.setAttribute('aria-expanded', !isExpanded);
+        if (faqItem) {
+          faqItem.classList.toggle('is-open', !isExpanded);
+        }
+      });
+    });
+  }
+
+  // ============================================
   // CART BADGE UPDATE
   // ============================================
 
@@ -1242,7 +1279,7 @@
     if (!grid || typeof ProductsModule === 'undefined') return;
 
     try {
-      const related = ProductsModule.getRelatedProducts(product.id, 4);
+      const related = await ProductsModule.getRelatedProducts(product.id, 4);
 
       if (related && related.length > 0) {
         grid.innerHTML = related.map(p => createProductCardShop(p)).join('');
@@ -3013,6 +3050,9 @@
   function init() {
     // Initialize mobile menu
     initMobileMenu();
+
+    // Initialize FAQ accordion
+    initFaqAccordion();
 
     // Update cart badge
     updateCartBadge();
