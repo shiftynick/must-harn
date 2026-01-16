@@ -112,8 +112,11 @@
   function initCurrentPage() {
     const path = window.location.pathname;
 
-    // Page-specific initialization will be added as pages are built
-    if (path.includes('shop.html')) {
+    // Page-specific initialization
+    if (path.endsWith('/') || path.endsWith('index.html') || path === '') {
+      // Landing page init
+      initLandingPage();
+    } else if (path.includes('shop.html')) {
       // Shop page init - to be implemented in US-012
     } else if (path.includes('product.html')) {
       // Product page init - to be implemented in US-013
@@ -124,6 +127,113 @@
     } else if (path.includes('confirmation.html')) {
       // Confirmation page init - to be implemented in US-016
     }
+  }
+
+  // ============================================
+  // LANDING PAGE INITIALIZATION
+  // ============================================
+
+  /**
+   * Initialize landing page functionality
+   */
+  async function initLandingPage() {
+    // Load featured products
+    await loadFeaturedProducts();
+
+    // Initialize newsletter form
+    initNewsletterForm();
+
+    // Initialize promo code copy button
+    initPromoCopyButton();
+  }
+
+  /**
+   * Load and display featured products (4 best sellers)
+   */
+  async function loadFeaturedProducts() {
+    const grid = document.getElementById('featured-products-grid');
+    if (!grid) return;
+
+    try {
+      // Load products using ProductsModule
+      if (typeof ProductsModule !== 'undefined') {
+        const products = await ProductsModule.loadProducts();
+        // Get featured products (sorted by sales count - best sellers)
+        const featuredProducts = ProductsModule.getFeaturedProducts(4);
+
+        if (featuredProducts && featuredProducts.length > 0) {
+          grid.innerHTML = featuredProducts.map(product => createProductCard(product)).join('');
+        } else {
+          grid.innerHTML = '<p class="text-center text-muted">No products available</p>';
+        }
+      }
+    } catch (error) {
+      console.error('Error loading featured products:', error);
+      grid.innerHTML = '<p class="text-center text-muted">Unable to load products</p>';
+    }
+  }
+
+  /**
+   * Initialize newsletter form submission
+   */
+  function initNewsletterForm() {
+    const form = document.getElementById('newsletter-form');
+    const successMessage = document.getElementById('newsletter-success');
+
+    if (!form || !successMessage) return;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Hide form and show success message
+      form.hidden = true;
+      successMessage.hidden = false;
+
+      // Optional: Store that user "subscribed" in localStorage
+      localStorage.setItem('mh_newsletter_subscribed', 'true');
+    });
+  }
+
+  /**
+   * Initialize promo code copy button
+   */
+  function initPromoCopyButton() {
+    const copyBtn = document.querySelector('[data-copy]');
+    if (!copyBtn) return;
+
+    copyBtn.addEventListener('click', async function() {
+      const code = this.getAttribute('data-copy');
+
+      try {
+        await navigator.clipboard.writeText(code);
+
+        // Show feedback
+        showToast({
+          title: 'Copied!',
+          message: 'Promo code copied to clipboard',
+          type: 'success',
+          duration: 2000
+        });
+
+        // Visual feedback on button
+        const originalHTML = this.innerHTML;
+        this.innerHTML = `
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        `;
+        setTimeout(() => {
+          this.innerHTML = originalHTML;
+        }, 2000);
+      } catch (error) {
+        console.error('Failed to copy:', error);
+        showToast({
+          title: 'Error',
+          message: 'Failed to copy code',
+          type: 'error'
+        });
+      }
+    });
   }
 
   // ============================================
@@ -821,7 +931,10 @@
     closeModal: closeModal,
     createSizeGuideModal: createSizeGuideModal,
     // Product card
-    createProductCard: createProductCard
+    createProductCard: createProductCard,
+    // Landing page
+    initLandingPage: initLandingPage,
+    loadFeaturedProducts: loadFeaturedProducts
   };
 
 })();

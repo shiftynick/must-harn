@@ -75,11 +75,239 @@
   </header>
 
   <main>
-    <!-- Landing page content will be added in US-011 -->
-    <div class="container py-16 text-center">
-      <h1>Mustache Harnesses Co.</h1>
-      <p class="text-lg text-muted">Coming Soon</p>
-    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Dignified Solutions for Distinguished Facial Hair</h1>
+          <p class="hero-subtitle">Premium harnesses, shapers, and accessories engineered for the discerning mustache enthusiast. Because your facial hair deserves better than gravity.</p>
+          <a href="pages/shop.html" class="btn btn-primary btn-xl">Shop Now</a>
+        </div>
+        <div class="hero-image">
+          <div class="hero-image-placeholder">
+            <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="300" fill="#722F37"/>
+              <path d="M100 180 Q150 120 200 180 Q250 120 300 180" stroke="#D4A844" stroke-width="8" fill="none" stroke-linecap="round"/>
+              <circle cx="200" cy="200" r="6" fill="#D4A844"/>
+              <text x="200" y="260" text-anchor="middle" fill="#FDF5E6" font-family="serif" font-size="14">Premium Mustache Hardware</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Badges Section -->
+    <section class="trust-badges">
+      <div class="container">
+        <div class="trust-badges-grid">
+          <div class="trust-badge">
+            <svg class="trust-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+            </svg>
+            <span class="trust-badge-text">Free Shipping</span>
+            <span class="trust-badge-subtext">On All Orders</span>
+          </div>
+          <div class="trust-badge">
+            <svg class="trust-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span class="trust-badge-text">100% Satisfaction</span>
+            <span class="trust-badge-subtext">Guaranteed</span>
+          </div>
+          <div class="trust-badge">
+            <svg class="trust-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <span class="trust-badge-text">Expert Support</span>
+            <span class="trust-badge-subtext">Mustache Specialists</span>
+          </div>
+          <div class="trust-badge">
+            <svg class="trust-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"/>
+            </svg>
+            <span class="trust-badge-text">30-Day Returns</span>
+            <span class="trust-badge-subtext">No Questions Asked</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="featured-products">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Customer Favorites</h2>
+          <p class="section-subtitle">Our most beloved harnesses, trusted by distinguished mustache owners worldwide</p>
+        </div>
+        <div class="product-grid" id="featured-products-grid">
+          <!-- Products loaded dynamically via JavaScript -->
+          <div class="loading-placeholder">
+            <div class="spinner"></div>
+            <p>Loading favorites...</p>
+          </div>
+        </div>
+        <div class="section-footer">
+          <a href="pages/shop.html" class="btn btn-outline">View All Products</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Showcase -->
+    <section class="category-showcase">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Shop by Category</h2>
+          <p class="section-subtitle">Find the perfect solution for your specific mustache needs</p>
+        </div>
+        <div class="category-grid">
+          <a href="pages/shop.html?categories=Precision%20Shapers" class="category-card category-card-shapers">
+            <div class="category-card-content">
+              <h3 class="category-card-title">Precision Shapers</h3>
+              <p class="category-card-description">Mold and train with laboratory precision</p>
+              <span class="category-card-link">Shop Now &rarr;</span>
+            </div>
+          </a>
+          <a href="pages/shop.html?categories=Croc-Style%20Fun-cessories" class="category-card category-card-funcessories">
+            <div class="category-card-content">
+              <h3 class="category-card-title">Fun-cessories</h3>
+              <p class="category-card-description">Ventilated wear for the playful gentleman</p>
+              <span class="category-card-link">Shop Now &rarr;</span>
+            </div>
+          </a>
+          <a href="pages/shop.html?categories=Support%20%26%20Lift%20Systems" class="category-card category-card-support">
+            <div class="category-card-content">
+              <h3 class="category-card-title">Support & Lift</h3>
+              <p class="category-card-description">Industrial-grade elevation systems</p>
+              <span class="category-card-link">Shop Now &rarr;</span>
+            </div>
+          </a>
+          <a href="pages/shop.html?categories=Night%20Guards%20%26%20Sleepwear" class="category-card category-card-nightguards">
+            <div class="category-card-content">
+              <h3 class="category-card-title">Night Guards</h3>
+              <p class="category-card-description">Protect your investment while you sleep</p>
+              <span class="category-card-link">Shop Now &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promo Banner -->
+    <section class="promo-section">
+      <div class="container">
+        <div class="promo-card">
+          <div class="promo-card-content">
+            <span class="promo-card-badge">Limited Time Offer</span>
+            <h2 class="promo-card-title">Save 10% on Your First Order</h2>
+            <p class="promo-card-description">Use code <strong>AIForHumans</strong> at checkout and join thousands of satisfied mustache enthusiasts who have elevated their facial hair game.</p>
+            <a href="pages/shop.html" class="btn btn-secondary btn-lg">Start Shopping</a>
+          </div>
+          <div class="promo-card-code">
+            <span class="promo-code-label">Your Code</span>
+            <span class="promo-code">AIForHumans</span>
+            <button class="promo-copy-btn" data-copy="AIForHumans" aria-label="Copy promo code">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">What Our Customers Say</h2>
+          <p class="section-subtitle">Real testimonials from real mustache owners</p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <blockquote class="testimonial-quote">"Since investing in the Elevate X1 Harness, my mustache maintains a consistent 32-degree upturn throughout 14-hour workdays. My colleagues have begun referring to me as 'The Distinguished One.' I have not corrected them."</blockquote>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">
+                <span>WT</span>
+              </div>
+              <div class="testimonial-info">
+                <cite class="testimonial-name">Wellington T. Pemberton III</cite>
+                <span class="testimonial-title">Senior Vice President of Important Affairs</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <blockquote class="testimonial-quote">"The DreamGuard Deluxe has reduced my morning mustache restoration time by 47 minutes. I now have time for a second cup of coffee. My productivity has increased. My wife has noticed. Everyone has noticed."</blockquote>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">
+                <span>DM</span>
+              </div>
+              <div class="testimonial-info">
+                <cite class="testimonial-name">Dr. Mortimer Blackwood</cite>
+                <span class="testimonial-title">Certified Mustache Optimization Consultant</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <blockquote class="testimonial-quote">"I purchased the Handlebar Croc as a joke. It is now an essential part of my daily routine. The ventilation is no laughing matter. My facial hair has never been this aerodynamically optimized."</blockquote>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">
+                <span>CF</span>
+              </div>
+              <div class="testimonial-info">
+                <cite class="testimonial-name">Captain Frederick Whiskerstone</cite>
+                <span class="testimonial-title">Retired Naval Officer & Mustache Aficionado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+      <div class="container">
+        <div class="newsletter-content">
+          <h2 class="newsletter-title">Join the Mustache Movement</h2>
+          <p class="newsletter-description">Subscribe to receive exclusive offers, grooming tips, and the latest in mustache harness innovation.</p>
+          <form class="newsletter-form" id="newsletter-form">
+            <div class="newsletter-input-group">
+              <input type="email" class="newsletter-input" placeholder="Enter your email address" required aria-label="Email address">
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </div>
+            <p class="newsletter-disclaimer">We respect your privacy. Unsubscribe at any time.</p>
+          </form>
+          <div class="newsletter-success" id="newsletter-success" hidden>
+            <svg class="newsletter-success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <p class="newsletter-success-text">Thank you for subscribing! Your mustache journey begins now.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Site Footer -->
