@@ -1,0 +1,412 @@
+# Ralph Progress Log
+Started: 2024-01-15
+
+## Codebase Patterns
+- Commit format: `feat: [US-XXX] - Title`
+- Branch name: main
+- localStorage keys: mh_cart, mh_promo, mh_orders
+- CSS files: main.css (core/variables), components.css, pages.css
+- JS files: main.js (core), products.js, cart.js, filters.js, checkout.js
+- Fonts: Playfair Display (headings), Inter (body)
+- Colors: Burgundy #722F37, Gold #D4A844, Cream #FDF5E6, Charcoal #2D2D2D, Off-white #FAFAFA
+
+## Key Files
+- index.html - Landing page
+- /pages/*.html - All other pages
+- /css/*.css - Stylesheets
+- /js/*.js - JavaScript modules
+- /data/products.json - Product data
+- /images/placeholders/ - Placeholder images
+
+- Placeholder colors by category: Burgundy (Precision Shapers), Gold (Fun-cessories), Charcoal (Support), Midnight Blue (Night Guards)
+- SVG is better than PNG for placeholders: smaller file size, scales perfectly, text stays crisp
+
+---
+
+## 2026-01-16 - US-001
+
+- What was implemented:
+  - Created folder structure: /pages, /css, /js, /images/placeholders, /data
+  - Created index.html with HTML5 boilerplate, font imports, CSS/JS links
+  - Created netlify.toml with publish config and security headers
+  - Initialized git repository on main branch
+  - Created .gitignore for common development files
+  - Added placeholder CSS and JS files so index.html loads properly
+- Files changed:
+  - index.html (new)
+  - netlify.toml (new)
+  - .gitignore (new)
+  - css/main.css, css/components.css, css/pages.css (new placeholders)
+  - js/main.js (new placeholder)
+- **Learnings:**
+  - Git needs user.email and user.name configured before commits
+  - Creating placeholder CSS/JS files prevents 404 errors when loading HTML
+  - netlify.toml can include security headers for X-Frame-Options, XSS protection, etc.
+
+---
+
+## 2026-01-16 - US-003
+
+- What was implemented:
+  - Created /data/products.json with complete product catalog (12 products)
+  - 4 categories with 3 products each: Precision Shapers, Croc-Style Fun-cessories, Support & Lift Systems, Night Guards & Sleepwear
+  - Each product includes all required fields: id, name, category, description, price, images (array), sizes (array), colors (array), reviews (array with 3 reviews each), rating, reviewCount, inStock, stockCount, isNew, salesCount, dateAdded
+  - Deadpan serious descriptions treating absurd products as legitimate (e.g., "laboratory-grade precision", "patented tri-axis adjustment system", "Mustache Isolation Chamber")
+  - 36 fake reviews total with realistic names, varied ratings (4-5 stars), and earnest commentary
+  - One product (SleepSecure Mustache Bonnet) marked as out of stock for testing
+  - 3 products marked as isNew: true for "newest" sorting tests
+- Files changed:
+  - data/products.json (new - 491 lines)
+- **Learnings:**
+  - Product IDs should be kebab-case slugs derived from product names for URL friendliness
+  - Reviews need consistent date format (ISO 8601: YYYY-MM-DD) for sorting
+  - Having one out-of-stock item is useful for testing inventory display logic
+  - salesCount values should be varied enough to test "best sellers" sorting
+  - Category names must exactly match what filters will use
+
+---
+
+## 2026-01-16 - US-002
+
+- What was implemented:
+  - Complete CSS custom properties system with brand colors, typography, spacing, shadows, transitions
+  - CSS reset/normalize for consistent cross-browser baseline
+  - Base typography styles for all heading levels (h1-h6) and body text
+  - Extensive utility classes: flexbox, grid, spacing (margin/padding), text alignment, colors, display, positioning
+  - Button component styles: primary, secondary, outline, outline-secondary, ghost variants + sizes (sm, lg, xl, block)
+  - Form input styles: inputs, selects, textareas, checkboxes, radios, validation states (valid/invalid), helper text
+  - Card component base styles with variants (bordered, interactive)
+  - Responsive breakpoints for tablet (768px) and desktop (1024px)
+- Files changed:
+  - css/main.css (fully implemented - ~970 lines)
+- **Learnings:**
+  - CSS custom properties allow easy theme consistency throughout the project
+  - Using a spacing scale (--space-1 through --space-24) keeps spacing consistent
+  - Form focus states should use box-shadow for the focus ring to avoid affecting layout
+  - Button :active states benefit from subtle translateY for tactile feedback
+  - Card hover effects work well with box-shadow transitions rather than scale transforms
+
+---
+
+## 2026-01-16 - US-004
+
+- What was implemented:
+  - Created 31 SVG placeholder images (400x400) for all 12 products
+  - Category-specific color coding:
+    - Precision Shapers: Burgundy (#722F37)
+    - Croc-Style Fun-cessories: Gold (#D4A844)
+    - Support & Lift Systems: Charcoal (#2D2D2D)
+    - Night Guards & Sleepwear: Midnight Blue (#1a1a4e)
+  - Each image includes: product name text, category label, dashed border, dimension indicator
+  - Multiple images per product (2-3 angles) with varying shades per category
+  - Updated products.json to reference .svg files instead of .jpg
+- Files changed:
+  - 31 new SVG files in images/placeholders/
+  - data/products.json (updated image paths from .jpg to .svg)
+- **Learnings:**
+  - SVG placeholders are ideal: vector-based, infinitely scalable, small file size
+  - Using XML entities (&amp;) for special characters in SVG text elements
+  - Vary background shades slightly for different "angles" to visually distinguish multiple images
+  - The replace_all option in Edit is efficient for batch find-replace operations
+
+---
+
+## 2026-01-16 - US-005
+
+- What was implemented:
+  - Created /js/products.js - complete product data module
+  - Function loadProducts() - async fetch and cache products from JSON
+  - Function getProductById(id) - find single product by ID
+  - Function getProductsByCategory(category) - filter by category
+  - Function getCategories() - get unique category names
+  - Function searchProducts(query) - search name, description, category
+  - Function sortProducts(products, sortBy) - sort by price, name, newest, best-sellers, rating, featured
+  - Function filterProducts(products, filters) - multi-filter: categories, price range, colors, sizes, inStockOnly
+  - Utility functions: getAllColors(), getAllSizes(), getPriceRange()
+  - Helper functions: getFeaturedProducts(), getNewProducts(), getRelatedProducts()
+  - formatPrice() for currency formatting
+  - All functions exported via window.ProductsModule for browser usage
+  - Added products.js script tag to index.html
+- Files changed:
+  - js/products.js (new - 294 lines)
+  - index.html (added script tag)
+- **Learnings:**
+  - Cache loaded products to avoid repeated fetch calls
+  - Use window.ProductsModule pattern for vanilla JS module exports (no bundler)
+  - Sort functions should return new arrays to avoid mutating original data
+  - "Featured" sort can combine salesCount and rating with weighted formula
+  - Size sorting needs custom order (S, M, L, XL, One Size) rather than alphabetical
+  - Intl.NumberFormat is the cleanest way to format currency
+
+---
+
+## 2026-01-16 - US-006
+
+- What was implemented:
+  - Created /js/cart.js - complete shopping cart module with localStorage persistence
+  - initCart() / getCart() - load cart from localStorage (key: mh_cart)
+  - addToCart() - add item with productId, name, price, size, color, quantity, image; merges duplicate items
+  - removeFromCart() - remove by unique cartId
+  - updateQuantity() - update quantity (0 removes item)
+  - calculateSubtotal() - sum of (price * quantity) for all items
+  - validatePromoCode() / applyPromoCode() - validates "AIFORHUMANS" for 10% off
+  - getAppliedPromo() / removePromoCode() - manage applied promo in localStorage (key: mh_promo)
+  - calculateDiscount() / calculateTotal() - compute discount and final total
+  - getCartSummary() - returns object with subtotal, promoCode, discount, total, shipping, itemCount
+  - clearCart() - remove cart and promo from localStorage
+  - getCartItemCount() - total quantity for header badge
+  - All functions exported via window.CartModule
+  - Added cart.js script tag to index.html
+- Files changed:
+  - js/cart.js (new - 269 lines)
+  - index.html (added script tag)
+- **Learnings:**
+  - Cart items need unique cartId to distinguish same product with different size/color combinations
+  - Promo codes should be normalized (uppercase, trimmed) before validation and storage
+  - generateCartId() uses timestamp + random string for uniqueness without requiring a DB
+  - Keep promo code definitions in a constant object for easy addition of future codes
+  - updateQuantity(cartId, 0) should remove the item rather than keeping quantity 0
+
+---
+
+## 2026-01-16 - US-007
+
+- What was implemented:
+  - Created /js/checkout.js - complete checkout validation and order processing module
+  - validateEmail() - RFC 5322 compliant email format validation
+  - validatePhone() - accepts various formats, 10-15 digits, optional field support
+  - validateCreditCard() - format check + Luhn algorithm validation (13-19 digits)
+  - validateExpiry() - MM/YY or MM/YYYY format, checks for past/future dates
+  - validateCVV() - 3-4 digit validation
+  - validateRequired() - generic required field validation with custom field names
+  - validateZipCode() - country-specific patterns (US, CA, UK, generic fallback)
+  - validateCheckoutForm() - validates entire form, returns errors object
+  - generateOrderNumber() - creates unique order number format: MH-YYYYMMDD-RANDOM
+  - saveOrder() / getOrderHistory() / getOrderByNumber() - localStorage order persistence (key: mh_orders)
+  - processCheckout() - validates form, saves order, clears cart on success
+  - formatCardNumber() / formatExpiry() / maskCardNumber() - input formatting utilities
+  - All functions exported via window.CheckoutModule
+  - Added checkout.js script tag to index.html
+- Files changed:
+  - js/checkout.js (new - 555 lines)
+  - index.html (added script tag)
+- **Learnings:**
+  - Luhn algorithm is essential for credit card validation (catches typos)
+  - Store only card last 4 digits in order history for security
+  - validateCheckoutForm returns { valid, errors } where errors is an object keyed by field name
+  - Order numbers should include date component for human readability
+  - processCheckout() should integrate with CartModule.clearCart() on success
+
+---
+
+## 2026-01-16 - US-008
+
+- What was implemented:
+  - Created /js/filters.js - complete URL-based filter state management module
+  - getDefaultFilters() - returns default filter state object
+  - parseFiltersFromURL() - parses URL query params into filter state (categories, price, colors, sizes, inStock, sort, search)
+  - buildURLFromFilters() - converts filter state to query string
+  - updateURLWithFilters() - updates browser URL using pushState/replaceState for history support
+  - combineFilters() - merges multiple filter states (arrays union, scalars override)
+  - resetFilters() - resets to defaults and optionally updates URL
+  - hasActiveFilters() / getActiveFilterCount() - check if filters are applied
+  - getAvailableFilterOptions() - fetches categories, colors, sizes, priceRange from ProductsModule
+  - getCategoryProductCounts() - counts products per category for filter display
+  - applyFiltersToProducts() - convenience wrapper for filter + search + sort in one call
+  - toggleFilterValue() - toggles a value in an array filter (add/remove)
+  - setupHistoryListener() - handles browser back/forward for filter state restoration
+  - createShareableURL() - generates full URL for sharing filtered views
+  - All functions exported via window.FiltersModule
+  - Added filters.js script tag to index.html
+- Files changed:
+  - js/filters.js (new - 392 lines)
+  - index.html (added script tag)
+- **Learnings:**
+  - URLSearchParams API simplifies query string parsing and building
+  - pushState vs replaceState: push creates history entry, replace doesn't
+  - Comma-separated values work well for multi-select filters in URLs (categories=A,B,C)
+  - popstate event fires on browser back/forward, not on pushState/replaceState
+  - Filter modules should depend on ProductsModule but not require it to load
+  - hasActiveFilters should not count sort as an "active filter" for clear filter UX
+
+---
+
+## 2026-01-16 - US-009
+
+- What was implemented:
+  - Complete header component with sticky positioning and mobile responsiveness
+  - Promo banner above header: "Free shipping on all orders | Use code AIForHumans for 10% off"
+  - Logo with mustache emoji (🎫) linking to home page
+  - Desktop navigation: Shop, About, FAQ, Contact with hover underline effect
+  - Cart icon (SVG) with badge showing item count (integrates with CartModule)
+  - Mobile hamburger menu toggle with animated X transformation
+  - Mobile navigation slide-down menu with full nav links
+  - Complete footer with 4-column grid layout (brand, shop links, company links, satisfaction badge)
+  - Social media icons (Facebook, Instagram, Twitter) with hover effects
+  - Footer category links with URL query params for filtering
+  - "100% Satisfaction Guaranteed" badge component
+  - main.js initialization: mobile menu toggle, cart badge update, active nav highlighting
+  - Utility functions: debounce, throttle, formatCurrency, getQueryParam, setQueryParam
+  - Custom event listener for 'cartUpdated' to refresh badge dynamically
+- Files changed:
+  - index.html (complete header/footer HTML structure)
+  - css/components.css (new - 471 lines: promo banner, header, footer, mobile nav styles)
+  - js/main.js (rewritten - 258 lines: mobile menu, cart badge, utilities)
+- **Learnings:**
+  - Sticky header needs z-index from CSS variables (--z-sticky) for proper layering
+  - Mobile menu toggle uses aria-expanded attribute for accessibility and CSS styling
+  - Cart badge should hide when count is 0 using CSS attribute selector [data-count="0"]
+  - IIFE pattern ((function(){})()) keeps module variables private while exposing API via window
+  - Custom events (document.dispatchEvent) allow loose coupling between cart and header
+  - Footer grid: use 2fr for brand column to give it more space than nav columns
+
+---
+
+## 2026-01-16 - US-010
+
+- What was implemented:
+  - Product card component with hover effects, image zoom, badges overlay, quick-add button
+  - Star rating component (filled/empty/half stars) with createStarRating() function
+  - Quantity selector component with +/- buttons, min/max limits, custom event dispatch
+  - Price display component with current/original/save styles
+  - Badge components: New (gold), Sale (red), Out of Stock (gray), Bestseller (burgundy), Limited (warning)
+  - Toast notification system with slide-in/out animations, auto-dismiss, close button
+  - "Added to cart" toast with product image, name, size/color details, View Cart link
+  - Modal component with focus trap, backdrop click close, escape key close
+  - Size guide modal with measurement table for mustache harness sizing
+  - Loading spinner component with size variants
+  - Quick add to cart functionality integrated with CartModule and ProductsModule
+- Files changed:
+  - css/components.css (extended - 780 new lines of component styles)
+  - js/main.js (extended - added ~470 lines of component JS)
+- **Learnings:**
+  - Toast container should be created lazily on first toast, not on page load
+  - Modal focus trap needs to handle Tab and Shift+Tab for accessibility
+  - aria-live="polite" on toast container enables screen reader announcements
+  - Quick-add buttons benefit from visual loading feedback (spinner + "Adding...")
+  - data-modal-open/data-modal-close attributes enable declarative modal control
+  - Custom events (quantityChange) with bubbles:true allow parent components to listen
+  - aspect-ratio CSS property is cleaner than padding-bottom hack for image containers
+
+---
+
+## 2026-01-16 - US-011
+
+- What was implemented:
+  - Complete landing page with all 7 required sections
+  - Hero section: headline, subheadline ("Dignified Solutions for Distinguished Facial Hair"), Shop Now CTA, SVG placeholder image
+  - Trust badges section: 4 badges (Free Shipping, 100% Satisfaction, Expert Support, 30-Day Returns) with SVG icons
+  - Featured products section: 4-product grid loaded dynamically via ProductsModule.getFeaturedProducts(4)
+  - Category showcase: 4 category cards with gradient backgrounds, hover effects, direct links to filtered shop pages
+  - Promo banner: highlighted AIForHumans code with copy-to-clipboard button and toast feedback
+  - Testimonials section: 3 deadpan serious fake reviews with avatars, star ratings, and absurd job titles
+  - Newsletter signup: email form that shows success message on submit (fake - no backend)
+  - Full responsive design: mobile-first with breakpoints at 480px, 768px, 1024px
+- Files changed:
+  - index.html (updated - complete landing page HTML structure)
+  - css/pages.css (updated - 639 lines of landing page styles)
+  - js/main.js (updated - added initLandingPage, loadFeaturedProducts, initNewsletterForm, initPromoCopyButton functions)
+- **Learnings:**
+  - clamp() CSS function is excellent for responsive typography (e.g., clamp(2rem, 5vw, 3.5rem))
+  - Page path detection needs to handle multiple formats: '/', '/index.html', and empty string
+  - Category URLs need proper encoding with encodeURIComponent (%20 for spaces, %26 for &)
+  - Inline SVG placeholders work well for hero images - no external file dependencies
+  - navigator.clipboard.writeText() is the modern async approach for copy-to-clipboard
+  - CSS gradients with brand colors create visually distinct category cards without images
+
+---
+
+## 2026-01-16 - US-012
+
+- What was implemented:
+  - Created pages/shop.html with complete shop page structure
+  - Filter sidebar with Category, Price Range, Color, Size, In-Stock Only filters
+  - Mobile-first collapsible filter panel with overlay and close button
+  - Sorting dropdown (7 options: Featured, Price Low/High, Name A-Z, Newest, Best Sellers, Rating)
+  - Responsive product grid: 2 cols mobile, 3 cols tablet, 4 cols desktop (within sidebar layout)
+  - Active filters display with removable tags
+  - URL query param state management (shareable/bookmarkable filter states)
+  - Browser back/forward navigation support via popstate listener
+  - "No products found" empty state with clear filters button
+  - Results count display showing filtered vs total products
+  - Dynamic filter population from ProductsModule data (categories, colors, sizes)
+  - Color swatches with hex color mapping for visual filter selection
+  - Size buttons with pill-style styling
+- Files changed:
+  - pages/shop.html (new - complete page with header/footer)
+  - css/pages.css (extended - ~550 lines of shop page styles)
+  - js/main.js (extended - ~600 lines of shop page JavaScript)
+- **Learnings:**
+  - Mobile sidebar pattern: use position:fixed + is-open class for mobile, position:static on desktop
+  - FiltersModule.applyFiltersToProducts() combines filter + search + sort in one call
+  - Price range filters can combine multiple ranges by taking min of mins and max of maxes
+  - Color swatch checkboxes use :checked + sibling selector for visual feedback
+  - syncFormWithFilters() is needed to handle URL-based initial state and back/forward nav
+  - Shop page needs different image path handling (../ prefix) since it's in /pages/
+  - Overlay pattern: create dynamically, add is-visible class, prevent body scroll
+  - Active filter tags with remove buttons need dynamic event listener attachment after innerHTML update
+
+---
+
+## 2026-01-16 - US-013
+
+- What was implemented:
+  - Created pages/product.html with complete product detail page structure
+  - Breadcrumb navigation: Home > Shop > Product Name
+  - Main product image with thumbnail gallery (click to switch images)
+  - Product info section: category label, title, star rating with review count link, price display
+  - Color selector with clickable swatches showing active state
+  - Size selector with buttons and "Size Guide" link to open modal
+  - Quantity selector (reusing existing component) with +/- buttons
+  - Large "Add to Cart" button with loading state and toast notification on success
+  - Stock status indicator with dot: in-stock (green), low-stock (orange), out-of-stock (red)
+  - Free shipping reminder banner
+  - Tabs for Description, Specifications, and Reviews with accessible ARIA attributes
+  - Reviews tab includes rating summary with breakdown bars and individual review cards
+  - Related products section showing 4 products from the same category
+  - Loading state and error state for missing/invalid product IDs
+  - Responsive layout: stacked on mobile, side-by-side on desktop
+  - Full integration with ProductsModule and CartModule
+- Files changed:
+  - pages/product.html (new - 418 lines)
+  - css/pages.css (extended - ~650 lines of product page styles)
+  - js/main.js (extended - ~600 lines of product page JavaScript)
+- **Learnings:**
+  - Product pages need URL parameter reading via getQueryParam('id') on page load
+  - Image paths from products.json need '../' prefix adjustment when in /pages/ directory
+  - Reviews summary breakdown bars can be calculated by scaling sample reviews to total reviewCount
+  - Tab panels should use hidden attribute + .active class for proper accessibility
+  - Anchor links (#product-reviews) can trigger tab switching programmatically on page load
+  - getRelatedProducts() filters by same category and excludes current product
+  - Stock status thresholds: stockCount <= 5 = low stock, stockCount = 0 || !inStock = out of stock
+
+---
+
+## 2026-01-16 - US-014
+
+- What was implemented:
+  - Created pages/cart.html with complete shopping cart page structure
+  - Cart items list with product image (linked to product page), name, color/size variant, price, quantity selector, line total, and remove button
+  - Editable quantity selector with +/- buttons, min/max validation, and real-time cart updates
+  - Empty cart state with cart icon illustration, message, and 'Continue Shopping' button linking to shop page
+  - Promo code section: input field, Apply button, success/error messages, applied code display with remove option
+  - Order summary sidebar: subtotal, conditional discount row (shows when promo applied), "FREE" shipping, estimated total
+  - 'Proceed to Checkout' button linking to checkout.html
+  - Trust badges: secure checkout, free shipping, 30-day returns
+  - Responsive design: stacked layout on mobile, two-column layout on desktop with sticky summary sidebar
+  - initCartPage() function in main.js that renders cart items dynamically from CartModule
+  - Real-time updates when quantity changes or items removed (smooth exit animation on remove)
+- Files changed:
+  - pages/cart.html (new - 274 lines)
+  - css/pages.css (extended - ~270 lines of cart page styles)
+  - js/main.js (extended - ~290 lines of cart page JavaScript)
+  - tasks.json (updated passes: true for US-014)
+- **Learnings:**
+  - Cart item image paths from CartModule may not have '../' prefix needed for /pages/ directory; need to normalize paths
+  - Quantity selector in cart needs immediate persistence to localStorage and UI update (line price recalculation)
+  - Remove button animation improves UX: fade out + slide left, then remove from DOM after timeout
+  - Promo code display has two states: input group (when no promo) vs applied display (when promo active)
+  - CartModule.getCartSummary() provides all needed data: subtotal, discount, total, shipping, itemCount
+  - Sticky sidebar needs top offset calculation accounting for header height
+
+---

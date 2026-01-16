@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:ai.google.dev)",
+      "Bash(powershell:*)",
+      "Bash(curl:*)",
+      "Bash(wc:*)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"N:\\\\must-harn\\\\gemini-image-gen.ps1\" -Prompt \"A similar inflatable product but in blue color, same style and lighting\" -ReferenceImage \"N:\\\\must-harn\\\\inflatable.png\" -OutputPath \"N:\\\\must-harn\\\\test-reference-output.png\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"& ''N:\\\\must-harn\\\\gemini-image-gen.ps1'' -Prompt ''A simple blue ball on white background'' -OutputPath ''N:\\\\must-harn\\\\test-basic.png'' -ApiKey ''AIzaSyB80HmKZJmehZWV5W-Pfe9tmRsM1NogTTI''\")"
+    ]
+  }
+}
