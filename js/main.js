@@ -166,9 +166,9 @@
     try {
       // Load products using ProductsModule
       if (typeof ProductsModule !== 'undefined') {
-        const products = await ProductsModule.loadProducts();
+        await ProductsModule.loadProducts();
         // Get featured products (sorted by sales count - best sellers)
-        const featuredProducts = ProductsModule.getFeaturedProducts(4);
+        const featuredProducts = await ProductsModule.getFeaturedProducts(4);
 
         if (featuredProducts && featuredProducts.length > 0) {
           grid.innerHTML = featuredProducts.map(product => createProductCard(product)).join('');
@@ -922,10 +922,12 @@
   function renderProductPage() {
     const product = productState.product;
     const loading = document.getElementById('product-loading');
+    const error = document.getElementById('product-error');
     const content = document.getElementById('product-content');
 
-    // Hide loading, show content
+    // Hide loading and error, show content
     if (loading) loading.hidden = true;
+    if (error) error.hidden = true;
     if (content) content.hidden = false;
 
     // Update page title
@@ -968,7 +970,7 @@
         const imgPath = img.startsWith('/') ? '..' + img : '../' + img;
         return `
           <button class="product-thumbnail ${index === 0 ? 'active' : ''}" data-index="${index}" aria-label="View image ${index + 1}">
-            <img src="${imgPath}" alt="${product.name} - Image ${index + 1}">
+            <img src="${imgPath}" alt="${product.name} - Image ${index + 1}" loading="lazy">
           </button>
         `;
       }).join('');

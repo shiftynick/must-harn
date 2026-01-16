@@ -344,7 +344,7 @@
         "Add loading='lazy' to images below fold"
       ],
       "priority": 22,
-      "passes": false,
+      "passes": true,
       "notes": "Phase 12.3-12.4"
     }
   ]

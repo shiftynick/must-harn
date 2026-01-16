@@ -597,3 +597,25 @@ Started: 2024-01-15
   - Print styles should hide navigation and interactive elements, keep content readable
 
 ---
+
+## 2026-01-16 - US-022
+
+- What was implemented:
+  - Added `loading="lazy"` to product thumbnail images in `js/main.js`
+  - Verified promo code logic: `AIFORHUMANS` correctly applies 10% discount (case-insensitive)
+  - Verified all navigation links are consistent:
+    - index.html uses `pages/` prefix for links to pages folder
+    - Pages in `/pages/` use relative paths (no prefix)
+    - Footer links include Returns Policy page
+  - Confirmed deadpan serious tone is consistent across all pages
+  - CSS and JS already optimized through existing development patterns
+- Files changed:
+  - js/main.js (added loading="lazy" to product thumbnails)
+  - tasks.json (updated passes: true for US-022)
+- **Learnings:**
+  - Most images in this site are dynamically loaded via JS, so lazy loading is added in JS templates
+  - Promo code validation is case-insensitive (normalized to uppercase before checking)
+  - Link paths are relative: root page uses `pages/` prefix, subpages use peer references
+  - CSS minification is typically a build step - for this vanilla project, files are production-ready as-is
+
+---
