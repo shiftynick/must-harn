@@ -1,0 +1,491 @@
+{
+  "products": [
+    {
+      "id": "exec-shaper-pro",
+      "name": "The Executive Shaper Pro",
+      "category": "Precision Shapers",
+      "description": "Engineered for the discerning professional, The Executive Shaper Pro provides laboratory-grade precision for maintaining optimal mustache curvature. Featuring aerospace-derived tension calibration and medical-grade silicone contact points, this device has been trusted by over 10,000 executives worldwide to deliver consistent results in boardroom-ready facial hair architecture.",
+      "price": 49.99,
+      "images": [
+        "/images/placeholders/exec-shaper-pro-1.jpg",
+        "/images/placeholders/exec-shaper-pro-2.jpg",
+        "/images/placeholders/exec-shaper-pro-3.jpg"
+      ],
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": ["Black", "Mahogany", "Silver"],
+      "reviews": [
+        {
+          "name": "Richard Thornton III",
+          "rating": 5,
+          "text": "Since acquiring The Executive Shaper Pro, my quarterly performance reviews have improved by 23%. Coincidence? The data suggests otherwise.",
+          "date": "2025-11-15"
+        },
+        {
+          "name": "Margaret Chen",
+          "rating": 5,
+          "text": "I purchased this for my husband. He now receives an average of 2.4 more compliments per business meeting. We track these things.",
+          "date": "2025-10-22"
+        },
+        {
+          "name": "Gerald Bottomsworth",
+          "rating": 4,
+          "text": "Excellent precision. Deducting one star because it doesn't come with a carrying case worthy of its caliber.",
+          "date": "2025-09-18"
+        }
+      ],
+      "rating": 4.7,
+      "reviewCount": 247,
+      "inStock": true,
+      "stockCount": 45,
+      "isNew": false,
+      "salesCount": 1847,
+      "dateAdded": "2024-03-15"
+    },
+    {
+      "id": "contour-master-3000",
+      "name": "Contour Master 3000",
+      "category": "Precision Shapers",
+      "description": "The Contour Master 3000 represents the pinnacle of mustache-shaping technology. Its patented tri-axis adjustment system allows for micro-calibrations down to 0.1 millimeters, ensuring your facial hair maintains the exact contour specified in your personal grooming protocol. Recommended by the International Mustache Standards Board.",
+      "price": 34.99,
+      "images": [
+        "/images/placeholders/contour-master-3000-1.jpg",
+        "/images/placeholders/contour-master-3000-2.jpg"
+      ],
+      "sizes": ["One Size"],
+      "colors": ["Onyx", "Walnut"],
+      "reviews": [
+        {
+          "name": "Dr. Harold Pembrook",
+          "rating": 5,
+          "text": "As a precision instrument engineer, I can confirm the tolerances on this device are exceptional. My mustache has never been more geometrically sound.",
+          "date": "2025-12-01"
+        },
+        {
+          "name": "Winston Caruthers",
+          "rating": 4,
+          "text": "The one-size-fits-all approach works surprisingly well. My mustache asymmetry has been reduced by 67%.",
+          "date": "2025-11-08"
+        },
+        {
+          "name": "Patricia Hollings",
+          "rating": 5,
+          "text": "Bought for my father's 70th birthday. He said it's the most thoughtful gift he's ever received. He now spends 40 minutes each morning achieving optimal contour.",
+          "date": "2025-10-30"
+        }
+      ],
+      "rating": 4.5,
+      "reviewCount": 189,
+      "inStock": true,
+      "stockCount": 67,
+      "isNew": false,
+      "salesCount": 1234,
+      "dateAdded": "2024-05-20"
+    },
+    {
+      "id": "precision-arc-trainer",
+      "name": "Precision Arc Trainer",
+      "category": "Precision Shapers",
+      "description": "Train your mustache to maintain perfect arc geometry with this revolutionary device. The Precision Arc Trainer uses graduated resistance bands and proprietary follicle-alignment technology to encourage your facial hair to grow in scientifically optimal patterns. Results typically visible within 4-6 weeks of consistent use.",
+      "price": 42.99,
+      "images": [
+        "/images/placeholders/precision-arc-trainer-1.jpg",
+        "/images/placeholders/precision-arc-trainer-2.jpg",
+        "/images/placeholders/precision-arc-trainer-3.jpg"
+      ],
+      "sizes": ["S", "M", "L"],
+      "colors": ["Chrome", "Matte Black", "Rose Gold"],
+      "reviews": [
+        {
+          "name": "Theodore Blackwell",
+          "rating": 5,
+          "text": "After 6 weeks of dedicated training, my mustache now holds a 47-degree arc without any external support. Life-changing.",
+          "date": "2025-12-10"
+        },
+        {
+          "name": "Samantha Rothschild",
+          "rating": 4,
+          "text": "The rose gold option is beautiful. My husband's mustache has improved significantly, and the device matches our bathroom decor.",
+          "date": "2025-11-25"
+        },
+        {
+          "name": "Kenneth Liu",
+          "rating": 5,
+          "text": "I was skeptical about follicle-alignment technology, but the peer-reviewed studies convinced me. Now I'm a believer.",
+          "date": "2025-10-15"
+        }
+      ],
+      "rating": 4.8,
+      "reviewCount": 156,
+      "inStock": true,
+      "stockCount": 32,
+      "isNew": true,
+      "salesCount": 892,
+      "dateAdded": "2025-09-01"
+    },
+    {
+      "id": "handlebar-croc",
+      "name": "The Handlebar Croc",
+      "category": "Croc-Style Fun-cessories",
+      "description": "Embrace the revolutionary concept of ventilated facial wear with The Handlebar Croc. Featuring strategically placed apertures that allow your magnificent handlebar mustache to flow freely while protecting the surrounding facial area from environmental factors. Includes 3 decorative charms for personal expression.",
+      "price": 24.99,
+      "images": [
+        "/images/placeholders/handlebar-croc-1.jpg",
+        "/images/placeholders/handlebar-croc-2.jpg",
+        "/images/placeholders/handlebar-croc-3.jpg"
+      ],
+      "sizes": ["S", "M", "L"],
+      "colors": ["Classic Black", "Racing Red", "Ocean Blue", "Neon Green"],
+      "reviews": [
+        {
+          "name": "Bradley Funkhouser",
+          "rating": 5,
+          "text": "Finally, a product that understands the handlebar lifestyle. The ventilation holes are perfectly positioned for my 8-inch span.",
+          "date": "2025-11-30"
+        },
+        {
+          "name": "Denise Partridge",
+          "rating": 5,
+          "text": "The charms are adorable. I got my husband the Racing Red and he wears it to every car show. People always ask where he got it.",
+          "date": "2025-11-12"
+        },
+        {
+          "name": "Antonio Vesquez",
+          "rating": 4,
+          "text": "Great concept, great execution. The only improvement would be more charm options. I've already used all three.",
+          "date": "2025-10-28"
+        }
+      ],
+      "rating": 4.6,
+      "reviewCount": 312,
+      "inStock": true,
+      "stockCount": 89,
+      "isNew": false,
+      "salesCount": 2156,
+      "dateAdded": "2024-02-10"
+    },
+    {
+      "id": "ventilated-fun-stache",
+      "name": "Ventilated Fun-Stache",
+      "category": "Croc-Style Fun-cessories",
+      "description": "The Ventilated Fun-Stache brings joy to mustache maintenance without compromising on breathability. Its lightweight foam construction and Swiss-engineered airflow system ensure your facial hair remains fresh while protected. Perfect for casual Fridays, weekend adventures, or any occasion where fun meets function.",
+      "price": 19.99,
+      "images": [
+        "/images/placeholders/ventilated-fun-stache-1.jpg",
+        "/images/placeholders/ventilated-fun-stache-2.jpg"
+      ],
+      "sizes": ["One Size"],
+      "colors": ["White", "Pink", "Camo", "Tie-Dye"],
+      "reviews": [
+        {
+          "name": "Jennifer McAllister",
+          "rating": 5,
+          "text": "The tie-dye version is everything. My husband won 'Most Creative Mustache Accessory' at the county fair.",
+          "date": "2025-12-05"
+        },
+        {
+          "name": "Robert Fitzgerald",
+          "rating": 4,
+          "text": "Excellent airflow. I conducted a 3-hour breathability test and recorded zero humidity buildup. Impressive engineering.",
+          "date": "2025-11-18"
+        },
+        {
+          "name": "Carla Simmons",
+          "rating": 5,
+          "text": "Bought the camo for my husband's hunting trips. He says it's the only mustache accessory that doesn't spook the deer.",
+          "date": "2025-10-05"
+        }
+      ],
+      "rating": 4.4,
+      "reviewCount": 278,
+      "inStock": true,
+      "stockCount": 134,
+      "isNew": false,
+      "salesCount": 1876,
+      "dateAdded": "2024-04-22"
+    },
+    {
+      "id": "swiss-cheese-whisker-wear",
+      "name": "Swiss Cheese Whisker Wear",
+      "category": "Croc-Style Fun-cessories",
+      "description": "Inspired by the precision holes of authentic Swiss cheese, this whimsical yet highly functional face accessory features mathematically calculated apertures for optimal whisker ventilation. Each hole is positioned according to the Golden Ratio, ensuring both aesthetic harmony and maximum facial hair freedom.",
+      "price": 22.99,
+      "images": [
+        "/images/placeholders/swiss-cheese-whisker-wear-1.jpg",
+        "/images/placeholders/swiss-cheese-whisker-wear-2.jpg",
+        "/images/placeholders/swiss-cheese-whisker-wear-3.jpg"
+      ],
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": ["Yellow", "White", "Orange"],
+      "reviews": [
+        {
+          "name": "Hans Mueller",
+          "rating": 5,
+          "text": "As a Swiss national, I appreciate the attention to authentic cheese hole placement. My mustache has never been more European.",
+          "date": "2025-11-28"
+        },
+        {
+          "name": "Dorothy Newman",
+          "rating": 5,
+          "text": "The Golden Ratio claim checked out. I measured it myself. This company takes their mathematics seriously.",
+          "date": "2025-11-01"
+        },
+        {
+          "name": "Franklin Pierce",
+          "rating": 4,
+          "text": "Fun conversation starter at cheese tasting parties. My mustache is the star of every fromage event.",
+          "date": "2025-10-12"
+        }
+      ],
+      "rating": 4.5,
+      "reviewCount": 167,
+      "inStock": true,
+      "stockCount": 56,
+      "isNew": false,
+      "salesCount": 943,
+      "dateAdded": "2024-06-15"
+    },
+    {
+      "id": "elevate-x1-harness",
+      "name": "The Elevate X1 Harness",
+      "category": "Support & Lift Systems",
+      "description": "The flagship of our Support & Lift line, The Elevate X1 Harness provides industrial-strength lift for even the most substantial mustaches. Featuring titanium-reinforced support cables and ergonomic over-ear anchoring, this harness can elevate up to 200 grams of facial hair while remaining virtually invisible under normal social scrutiny.",
+      "price": 89.99,
+      "images": [
+        "/images/placeholders/elevate-x1-harness-1.jpg",
+        "/images/placeholders/elevate-x1-harness-2.jpg",
+        "/images/placeholders/elevate-x1-harness-3.jpg"
+      ],
+      "sizes": ["M", "L", "XL"],
+      "colors": ["Professional Black", "Executive Brown"],
+      "reviews": [
+        {
+          "name": "Cornelius Worthington IV",
+          "rating": 5,
+          "text": "My mustache weighs 187 grams. Before the X1, I couldn't maintain proper elevation for more than an hour. Now I can attend full-day symposiums without fatigue.",
+          "date": "2025-12-08"
+        },
+        {
+          "name": "Victoria Ashford",
+          "rating": 5,
+          "text": "Purchased for my husband's 25th anniversary gift. He cried. He said no one had ever understood his mustache struggles like this.",
+          "date": "2025-11-20"
+        },
+        {
+          "name": "Dr. Raymond Cross",
+          "rating": 4,
+          "text": "The titanium cables are legitimate. I tested them in my laboratory. Would recommend for serious mustache enthusiasts only.",
+          "date": "2025-10-25"
+        }
+      ],
+      "rating": 4.9,
+      "reviewCount": 98,
+      "inStock": true,
+      "stockCount": 23,
+      "isNew": false,
+      "salesCount": 567,
+      "dateAdded": "2024-01-08"
+    },
+    {
+      "id": "anti-gravity-curl-system",
+      "name": "Anti-Gravity Curl System",
+      "category": "Support & Lift Systems",
+      "description": "Defy the laws of physics with our Anti-Gravity Curl System. Using patented magnetic micro-lifters and adjustable tension springs, this revolutionary system maintains upward curl momentum throughout the day. Recommended for mustaches requiring 15 degrees or more of sustained vertical deviation.",
+      "price": 74.99,
+      "images": [
+        "/images/placeholders/anti-gravity-curl-system-1.jpg",
+        "/images/placeholders/anti-gravity-curl-system-2.jpg"
+      ],
+      "sizes": ["S", "M", "L"],
+      "colors": ["Stealth Black", "Champagne"],
+      "reviews": [
+        {
+          "name": "Professor Edwin Marlowe",
+          "rating": 5,
+          "text": "As a physicist, the 'anti-gravity' claim initially concerned me. However, the magnetic micro-lifters are ingeniously designed. Physics approved.",
+          "date": "2025-12-12"
+        },
+        {
+          "name": "Catherine Pemberton",
+          "rating": 5,
+          "text": "My husband's curls now maintain a perfect 23-degree angle all day. The champagne color is absolutely divine.",
+          "date": "2025-11-15"
+        },
+        {
+          "name": "Douglas Mitchell",
+          "rating": 4,
+          "text": "Excellent product. The springs required some initial calibration, but once dialed in, the curl consistency is remarkable.",
+          "date": "2025-10-08"
+        }
+      ],
+      "rating": 4.7,
+      "reviewCount": 134,
+      "inStock": true,
+      "stockCount": 41,
+      "isNew": true,
+      "salesCount": 723,
+      "dateAdded": "2025-08-15"
+    },
+    {
+      "id": "dual-point-lift-apparatus",
+      "name": "Dual-Point Lift Apparatus",
+      "category": "Support & Lift Systems",
+      "description": "Achieve symmetrical elevation with the Dual-Point Lift Apparatus. Each mustache terminus receives independent lift support, allowing for custom angle adjustments on both sides. Includes a precision bubble level for ensuring equal bilateral elevation during setup.",
+      "price": 64.99,
+      "images": [
+        "/images/placeholders/dual-point-lift-apparatus-1.jpg",
+        "/images/placeholders/dual-point-lift-apparatus-2.jpg",
+        "/images/placeholders/dual-point-lift-apparatus-3.jpg"
+      ],
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": ["Black", "Tan", "Gray"],
+      "reviews": [
+        {
+          "name": "Albert Pennington",
+          "rating": 5,
+          "text": "The bubble level is genius. I had been living with asymmetrical lift for years without knowing. This product revealed the truth and fixed it.",
+          "date": "2025-11-22"
+        },
+        {
+          "name": "Meredith Collins",
+          "rating": 4,
+          "text": "Very satisfied with the independent adjustment feature. My husband's left side always drooped slightly. Problem solved.",
+          "date": "2025-11-05"
+        },
+        {
+          "name": "Sebastian Torres",
+          "rating": 5,
+          "text": "Professional-grade equipment at a consumer price. The bilateral support is exactly what the mustache community needed.",
+          "date": "2025-10-18"
+        }
+      ],
+      "rating": 4.6,
+      "reviewCount": 178,
+      "inStock": true,
+      "stockCount": 58,
+      "isNew": false,
+      "salesCount": 834,
+      "dateAdded": "2024-07-30"
+    },
+    {
+      "id": "dreamguard-deluxe",
+      "name": "The DreamGuard Deluxe",
+      "category": "Night Guards & Sleepwear",
+      "description": "Protect your precious facial hair investment while you sleep with The DreamGuard Deluxe. This premium night guard features memory foam cushioning, adjustable temple straps, and a patented Mustache Isolation Chamber that prevents pillow compression and morning curl collapse.",
+      "price": 54.99,
+      "images": [
+        "/images/placeholders/dreamguard-deluxe-1.jpg",
+        "/images/placeholders/dreamguard-deluxe-2.jpg",
+        "/images/placeholders/dreamguard-deluxe-3.jpg"
+      ],
+      "sizes": ["S", "M", "L"],
+      "colors": ["Midnight Blue", "Lavender", "Charcoal"],
+      "reviews": [
+        {
+          "name": "Harold Blackstone",
+          "rating": 5,
+          "text": "I used to wake up with flattened mustache ends. Since using the DreamGuard, my morning shape retention has improved by 89%.",
+          "date": "2025-12-03"
+        },
+        {
+          "name": "Eleanor Vance",
+          "rating": 5,
+          "text": "The Mustache Isolation Chamber is not a gimmick. It genuinely works. My husband's curls are intact every morning.",
+          "date": "2025-11-10"
+        },
+        {
+          "name": "Martin Caldwell",
+          "rating": 4,
+          "text": "Comfortable and effective. The lavender color is soothing. My only complaint is I wish it came in more sizes.",
+          "date": "2025-10-20"
+        }
+      ],
+      "rating": 4.8,
+      "reviewCount": 203,
+      "inStock": true,
+      "stockCount": 67,
+      "isNew": false,
+      "salesCount": 1456,
+      "dateAdded": "2024-02-28"
+    },
+    {
+      "id": "nocturnal-curl-protector",
+      "name": "Nocturnal Curl Protector",
+      "category": "Night Guards & Sleepwear",
+      "description": "Specifically engineered for curled and styled mustaches, the Nocturnal Curl Protector maintains curl integrity through all sleep positions. Features our SleepTrack monitoring system that alerts you if you're approaching a curl-compromising position (optional smart alarm sold separately).",
+      "price": 39.99,
+      "images": [
+        "/images/placeholders/nocturnal-curl-protector-1.jpg",
+        "/images/placeholders/nocturnal-curl-protector-2.jpg"
+      ],
+      "sizes": ["M", "L", "XL"],
+      "colors": ["Black", "Navy"],
+      "reviews": [
+        {
+          "name": "Gregory Ashworth",
+          "rating": 5,
+          "text": "The SleepTrack system changed my life. I now know I spend 34% of my sleep in curl-dangerous positions. Knowledge is power.",
+          "date": "2025-11-25"
+        },
+        {
+          "name": "Barbara Henderson",
+          "rating": 4,
+          "text": "Effective protection. I wish the smart alarm wasn't sold separately, but the base product still delivers excellent results.",
+          "date": "2025-11-02"
+        },
+        {
+          "name": "Timothy O'Brien",
+          "rating": 5,
+          "text": "Finally, technology that addresses the real problems in life. My curls have never been more consistent.",
+          "date": "2025-10-14"
+        }
+      ],
+      "rating": 4.5,
+      "reviewCount": 145,
+      "inStock": true,
+      "stockCount": 52,
+      "isNew": false,
+      "salesCount": 987,
+      "dateAdded": "2024-05-10"
+    },
+    {
+      "id": "sleepsecure-mustache-bonnet",
+      "name": "SleepSecure Mustache Bonnet",
+      "category": "Night Guards & Sleepwear",
+      "description": "The SleepSecure Mustache Bonnet offers comprehensive overnight protection in an elegant, classic design. Crafted from breathable silk blend fabric with an integrated mustache hammock, this bonnet keeps your facial hair suspended in a protective cradle throughout the night.",
+      "price": 29.99,
+      "images": [
+        "/images/placeholders/sleepsecure-mustache-bonnet-1.jpg",
+        "/images/placeholders/sleepsecure-mustache-bonnet-2.jpg"
+      ],
+      "sizes": ["One Size"],
+      "colors": ["Silk White", "Blush", "Slate"],
+      "reviews": [
+        {
+          "name": "Reginald Thompson",
+          "rating": 5,
+          "text": "The mustache hammock is revolutionary. I sleep like a baby knowing my facial hair is gently cradled all night.",
+          "date": "2025-12-07"
+        },
+        {
+          "name": "Priscilla Whitmore",
+          "rating": 5,
+          "text": "Bought the blush color for my husband. He was hesitant at first, but now refuses to sleep without it. It's become his security bonnet.",
+          "date": "2025-11-18"
+        },
+        {
+          "name": "Edward Lancaster",
+          "rating": 4,
+          "text": "Elegant design, effective function. The silk blend is genuinely breathable. One size fits most, but larger heads may feel snug.",
+          "date": "2025-10-30"
+        }
+      ],
+      "rating": 4.6,
+      "reviewCount": 234,
+      "inStock": false,
+      "stockCount": 0,
+      "isNew": true,
+      "salesCount": 1678,
+      "dateAdded": "2025-10-01"
+    }
+  ]
+}
