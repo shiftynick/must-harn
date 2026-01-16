@@ -456,3 +456,52 @@ Started: 2024-01-15
   - Browser console + network tab are essential for debugging fetch failures
 
 ---
+
+## 2026-01-16 - US-016
+
+- What was implemented:
+  - Created `pages/confirmation.html` with complete order confirmation page
+  - Success header with checkmark animation, "Thank You" heading, order number, email notice
+  - Two-column grid showing shipping address and payment method
+  - Order items list with product images, names, colors, sizes, quantities, prices
+  - Order totals section with subtotal, discount (if promo applied), free shipping, total
+  - Delivery estimate banner (3-5 business days) with truck icon
+  - Continue Shopping and Return to Home action buttons
+  - Loading state while fetching order, error state if order not found
+- Files changed:
+  - pages/confirmation.html (new - 277 lines)
+  - css/pages.css (extended - ~375 lines of confirmation page styles)
+  - js/main.js (extended - ~190 lines: initConfirmationPage, renderConfirmationPage, helper functions)
+  - tasks.json (updated passes: true for US-016)
+- **Learnings:**
+  - Order data is retrieved via URL parameter `?order=MH-XXXXXXXX-XXXXXX` and CheckoutModule.getOrderByNumber()
+  - Confirmation page needs three states: loading, error (order not found), and success (order details)
+  - getCountryName() helper maps country codes to readable names for address display
+  - Image paths from order items need '../' prefix normalization when in /pages/ directory
+  - CSS keyframe animation (scaleIn) adds satisfying visual feedback to the success checkmark
+
+---
+
+## 2026-01-16 - US-017
+
+- What was implemented:
+  - Created `pages/about.html` with complete About Us page
+  - Hero section with company "history" - founding in 1987, legacy messaging
+  - Origin story section with founder Reginald P. Bristleworth III - comically serious tale of nocturnal curl collapse
+  - Mission statement section with centered card and shield icon emphasizing mustache dignity
+  - Core values section: Precision, Quality, Passion, Integrity - with SVG icons and earnest descriptions
+  - Team section with 6 fake executives: Chief Executive Whisker Officer, VP of Curl Dynamics, Director of Customer Whisker Relations, etc.
+  - Timeline section showing company milestones from 1987 to present
+  - CTA section with gold gradient background and shop link
+  - Full responsive design across mobile/tablet/desktop breakpoints
+- Files changed:
+  - pages/about.html (new - 400+ lines)
+  - css/pages.css (extended - ~470 lines of About page styles)
+  - tasks.json (updated passes: true for US-017)
+- **Learnings:**
+  - Deadpan serious tone maintained through earnest language about absurd topics
+  - Team titles work best when they sound professional but describe mustache-specific duties
+  - Timeline component uses CSS ::before and ::after for vertical line and dots
+  - Avatar initials (RPB, MV, HM) work well as placeholder for team photos
+
+---
