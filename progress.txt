@@ -505,3 +505,26 @@ Started: 2024-01-15
   - Avatar initials (RPB, MV, HM) work well as placeholder for team photos
 
 ---
+
+## 2026-01-16 - US-018
+
+- What was implemented:
+  - Created `pages/faq.html` with complete FAQ page
+  - Accordion-style Q&A with click-to-expand functionality
+  - 4 categories: Ordering & Shipping (4 questions), Product Information (5 questions), Returns & Exchanges (3 questions), Mustache Care (4 questions) - 16 total
+  - All answers written in deadpan serious tone treating products as completely legitimate
+  - Questions include practical topics like "Will this work with a handlebar mustache?" answered earnestly
+  - JavaScript accordion functionality included inline for simplicity
+  - Contact CTA at bottom linking to contact page
+  - Full responsive design
+- Files changed:
+  - pages/faq.html (new - 350+ lines)
+  - css/pages.css (extended - ~180 lines of FAQ page styles)
+  - tasks.json (updated passes: true for US-018)
+- **Learnings:**
+  - FAQ accordion uses is-open class toggle with aria-expanded for accessibility
+  - Inline script for simple page-specific functionality avoids bloating main.js
+  - Deadpan tone works by using technical language for absurd concepts (e.g., "tri-axis adjustment system")
+  - Category sections with border-bottom titles help organize long FAQ lists
+
+---
