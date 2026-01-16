@@ -2641,7 +2641,7 @@
         <div class="toast-product-details">Added to cart${details.length ? ' • ' + details.join(', ') : ''}</div>
       </div>
       <div class="toast-product-action">
-        <a href="pages/cart.html" class="btn btn-sm btn-primary">View Cart</a>
+        <a href="cart.html" class="btn btn-sm btn-primary">View Cart</a>
       </div>
       <button class="toast-close" aria-label="Close notification">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

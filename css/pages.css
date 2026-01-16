@@ -1059,6 +1059,10 @@
   border-radius: var(--radius-md);
 }
 
+.active-filters[hidden] {
+  display: none;
+}
+
 .active-filters-label {
   font-size: var(--text-sm);
   font-weight: 500;
