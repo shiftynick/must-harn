@@ -1,0 +1,18 @@
+/* Main CSS - Core styles and variables */
+/* Full implementation in US-002 */
+
+:root {
+  /* Colors - to be defined in US-002 */
+  /* Typography - to be defined in US-002 */
+  /* Spacing - to be defined in US-002 */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+}
