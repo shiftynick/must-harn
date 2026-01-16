@@ -158,6 +158,14 @@ else {
         }
     }
 
+    # Build imageConfig - only include imageSize for gemini-pro model
+    $imageConfig = @{
+        aspectRatio = $AspectRatio
+    }
+    if ($Model -eq "gemini-pro" -and $ImageSize -ne "1K") {
+        $imageConfig.imageSize = $ImageSize
+    }
+
     $body = @{
         contents         = @(
             @{
@@ -166,10 +174,7 @@ else {
         )
         generationConfig = @{
             responseModalities = @("TEXT", "IMAGE")
-            imageConfig        = @{
-                aspectRatio = $AspectRatio
-                imageSize   = $ImageSize
-            }
+            imageConfig        = $imageConfig
         }
     }
 }

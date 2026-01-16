@@ -7,9 +7,10 @@
       "description": "Engineered for the discerning professional, The Executive Shaper Pro provides laboratory-grade precision for maintaining optimal mustache curvature. Featuring aerospace-derived tension calibration and medical-grade silicone contact points, this device has been trusted by over 10,000 executives worldwide to deliver consistent results in boardroom-ready facial hair architecture.",
       "price": 49.99,
       "images": [
-        "/images/placeholders/exec-shaper-pro-1.svg",
-        "/images/placeholders/exec-shaper-pro-2.svg",
-        "/images/placeholders/exec-shaper-pro-3.svg"
+        "/images/products/exec-shaper-pro-1.png",
+        "/images/products/exec-shaper-pro-2.png",
+        "/images/products/exec-shaper-pro-3.png",
+        "/images/products/exec-shaper-pro-4.png"
       ],
       "sizes": ["S", "M", "L", "XL"],
       "colors": ["Black", "Mahogany", "Silver"],
@@ -48,8 +49,9 @@
       "description": "The Contour Master 3000 represents the pinnacle of mustache-shaping technology. Its patented tri-axis adjustment system allows for micro-calibrations down to 0.1 millimeters, ensuring your facial hair maintains the exact contour specified in your personal grooming protocol. Recommended by the International Mustache Standards Board.",
       "price": 34.99,
       "images": [
-        "/images/placeholders/contour-master-3000-1.svg",
-        "/images/placeholders/contour-master-3000-2.svg"
+        "/images/products/contour-master-3000-1.png",
+        "/images/products/contour-master-3000-2.png",
+        "/images/products/contour-master-3000-3.png"
       ],
       "sizes": ["One Size"],
       "colors": ["Onyx", "Walnut"],
@@ -88,9 +90,10 @@
       "description": "Train your mustache to maintain perfect arc geometry with this revolutionary device. The Precision Arc Trainer uses graduated resistance bands and proprietary follicle-alignment technology to encourage your facial hair to grow in scientifically optimal patterns. Results typically visible within 4-6 weeks of consistent use.",
       "price": 42.99,
       "images": [
-        "/images/placeholders/precision-arc-trainer-1.svg",
-        "/images/placeholders/precision-arc-trainer-2.svg",
-        "/images/placeholders/precision-arc-trainer-3.svg"
+        "/images/products/precision-arc-trainer-1.png",
+        "/images/products/precision-arc-trainer-2.png",
+        "/images/products/precision-arc-trainer-3.png",
+        "/images/products/precision-arc-trainer-4.png"
       ],
       "sizes": ["S", "M", "L"],
       "colors": ["Chrome", "Matte Black", "Rose Gold"],
@@ -129,9 +132,10 @@
       "description": "Embrace the revolutionary concept of ventilated facial wear with The Handlebar Croc. Featuring strategically placed apertures that allow your magnificent handlebar mustache to flow freely while protecting the surrounding facial area from environmental factors. Includes 3 decorative charms for personal expression.",
       "price": 24.99,
       "images": [
-        "/images/placeholders/handlebar-croc-1.svg",
-        "/images/placeholders/handlebar-croc-2.svg",
-        "/images/placeholders/handlebar-croc-3.svg"
+        "/images/products/handlebar-croc-1.png",
+        "/images/products/handlebar-croc-2.png",
+        "/images/products/handlebar-croc-3.png",
+        "/images/products/handlebar-croc-4.png"
       ],
       "sizes": ["S", "M", "L"],
       "colors": ["Classic Black", "Racing Red", "Ocean Blue", "Neon Green"],
@@ -170,8 +174,9 @@
       "description": "The Ventilated Fun-Stache brings joy to mustache maintenance without compromising on breathability. Its lightweight foam construction and Swiss-engineered airflow system ensure your facial hair remains fresh while protected. Perfect for casual Fridays, weekend adventures, or any occasion where fun meets function.",
       "price": 19.99,
       "images": [
-        "/images/placeholders/ventilated-fun-stache-1.svg",
-        "/images/placeholders/ventilated-fun-stache-2.svg"
+        "/images/products/ventilated-fun-stache-1.png",
+        "/images/products/ventilated-fun-stache-2.png",
+        "/images/products/ventilated-fun-stache-3.png"
       ],
       "sizes": ["One Size"],
       "colors": ["White", "Pink", "Camo", "Tie-Dye"],
@@ -210,9 +215,10 @@
       "description": "Inspired by the precision holes of authentic Swiss cheese, this whimsical yet highly functional face accessory features mathematically calculated apertures for optimal whisker ventilation. Each hole is positioned according to the Golden Ratio, ensuring both aesthetic harmony and maximum facial hair freedom.",
       "price": 22.99,
       "images": [
-        "/images/placeholders/swiss-cheese-whisker-wear-1.svg",
-        "/images/placeholders/swiss-cheese-whisker-wear-2.svg",
-        "/images/placeholders/swiss-cheese-whisker-wear-3.svg"
+        "/images/products/swiss-cheese-whisker-wear-1.png",
+        "/images/products/swiss-cheese-whisker-wear-2.png",
+        "/images/products/swiss-cheese-whisker-wear-3.png",
+        "/images/products/swiss-cheese-whisker-wear-4.png"
       ],
       "sizes": ["S", "M", "L", "XL"],
       "colors": ["Yellow", "White", "Orange"],
@@ -251,9 +257,10 @@
       "description": "The flagship of our Support & Lift line, The Elevate X1 Harness provides industrial-strength lift for even the most substantial mustaches. Featuring titanium-reinforced support cables and ergonomic over-ear anchoring, this harness can elevate up to 200 grams of facial hair while remaining virtually invisible under normal social scrutiny.",
       "price": 89.99,
       "images": [
-        "/images/placeholders/elevate-x1-harness-1.svg",
-        "/images/placeholders/elevate-x1-harness-2.svg",
-        "/images/placeholders/elevate-x1-harness-3.svg"
+        "/images/products/elevate-x1-harness-1.png",
+        "/images/products/elevate-x1-harness-2.png",
+        "/images/products/elevate-x1-harness-3.png",
+        "/images/products/elevate-x1-harness-4.png"
       ],
       "sizes": ["M", "L", "XL"],
       "colors": ["Professional Black", "Executive Brown"],
@@ -292,8 +299,9 @@
       "description": "Defy the laws of physics with our Anti-Gravity Curl System. Using patented magnetic micro-lifters and adjustable tension springs, this revolutionary system maintains upward curl momentum throughout the day. Recommended for mustaches requiring 15 degrees or more of sustained vertical deviation.",
       "price": 74.99,
       "images": [
-        "/images/placeholders/anti-gravity-curl-system-1.svg",
-        "/images/placeholders/anti-gravity-curl-system-2.svg"
+        "/images/products/anti-gravity-curl-system-1.png",
+        "/images/products/anti-gravity-curl-system-2.png",
+        "/images/products/anti-gravity-curl-system-3.png"
       ],
       "sizes": ["S", "M", "L"],
       "colors": ["Stealth Black", "Champagne"],
@@ -332,9 +340,10 @@
       "description": "Achieve symmetrical elevation with the Dual-Point Lift Apparatus. Each mustache terminus receives independent lift support, allowing for custom angle adjustments on both sides. Includes a precision bubble level for ensuring equal bilateral elevation during setup.",
       "price": 64.99,
       "images": [
-        "/images/placeholders/dual-point-lift-apparatus-1.svg",
-        "/images/placeholders/dual-point-lift-apparatus-2.svg",
-        "/images/placeholders/dual-point-lift-apparatus-3.svg"
+        "/images/products/dual-point-lift-apparatus-1.png",
+        "/images/products/dual-point-lift-apparatus-2.png",
+        "/images/products/dual-point-lift-apparatus-3.png",
+        "/images/products/dual-point-lift-apparatus-4.png"
       ],
       "sizes": ["S", "M", "L", "XL"],
       "colors": ["Black", "Tan", "Gray"],
@@ -373,9 +382,10 @@
       "description": "Protect your precious facial hair investment while you sleep with The DreamGuard Deluxe. This premium night guard features memory foam cushioning, adjustable temple straps, and a patented Mustache Isolation Chamber that prevents pillow compression and morning curl collapse.",
       "price": 54.99,
       "images": [
-        "/images/placeholders/dreamguard-deluxe-1.svg",
-        "/images/placeholders/dreamguard-deluxe-2.svg",
-        "/images/placeholders/dreamguard-deluxe-3.svg"
+        "/images/products/dreamguard-deluxe-1.png",
+        "/images/products/dreamguard-deluxe-2.png",
+        "/images/products/dreamguard-deluxe-3.png",
+        "/images/products/dreamguard-deluxe-4.png"
       ],
       "sizes": ["S", "M", "L"],
       "colors": ["Midnight Blue", "Lavender", "Charcoal"],
@@ -414,8 +424,9 @@
       "description": "Specifically engineered for curled and styled mustaches, the Nocturnal Curl Protector maintains curl integrity through all sleep positions. Features our SleepTrack monitoring system that alerts you if you're approaching a curl-compromising position (optional smart alarm sold separately).",
       "price": 39.99,
       "images": [
-        "/images/placeholders/nocturnal-curl-protector-1.svg",
-        "/images/placeholders/nocturnal-curl-protector-2.svg"
+        "/images/products/nocturnal-curl-protector-1.png",
+        "/images/products/nocturnal-curl-protector-2.png",
+        "/images/products/nocturnal-curl-protector-3.png"
       ],
       "sizes": ["M", "L", "XL"],
       "colors": ["Black", "Navy"],
@@ -454,8 +465,9 @@
       "description": "The SleepSecure Mustache Bonnet offers comprehensive overnight protection in an elegant, classic design. Crafted from breathable silk blend fabric with an integrated mustache hammock, this bonnet keeps your facial hair suspended in a protective cradle throughout the night.",
       "price": 29.99,
       "images": [
-        "/images/placeholders/sleepsecure-mustache-bonnet-1.svg",
-        "/images/placeholders/sleepsecure-mustache-bonnet-2.svg"
+        "/images/products/sleepsecure-mustache-bonnet-1.png",
+        "/images/products/sleepsecure-mustache-bonnet-2.png",
+        "/images/products/sleepsecure-mustache-bonnet-3.png"
       ],
       "sizes": ["One Size"],
       "colors": ["Silk White", "Blush", "Slate"],

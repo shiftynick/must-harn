@@ -428,3 +428,31 @@ Started: 2024-01-15
   - Sticky sidebar needs top offset calculation accounting for header height
 
 ---
+
+## 2026-01-16 - Debug Session: Products Not Loading
+
+- **Issue:** Shop page showed "No products found" even though products.json existed
+- **Root causes found (4 bugs):**
+  1. **netlify.toml catch-all redirect** - The `/* -> /index.html` redirect intercepted ALL requests including `/data/products.json`, returning HTML instead of JSON. Fix: Add explicit redirects for static asset paths (`/data/*`, `/js/*`, `/css/*`, `/images/*`, `/pages/*`) before any catch-all.
+  2. **Clean URL page detection** - `bunx serve` and Netlify serve `/pages/shop` without `.html` extension, but code checked `path.includes('shop.html')` which failed. Fix: Added helper function `isPage(name)` that checks both with and without `.html`.
+  3. **Price filter null vs undefined** - Filter used `filters.minPrice !== undefined` but parseFiltersFromURL returns `null` for empty values. `null !== undefined` is TRUE, so it tried `price >= null` which fails. Fix: Changed to `!= null` which handles both null and undefined.
+  4. **CSS overriding hidden attribute** - `.shop-empty { display: flex }` overrides the HTML `hidden` attribute. Fix: Added `.shop-empty[hidden] { display: none; }` to respect the attribute.
+- **Files changed:**
+  - netlify.toml (static asset redirect rules)
+  - js/main.js (clean URL support in initCurrentPage)
+  - js/products.js (price filter null handling)
+  - css/pages.css (hidden attribute respect)
+- **Debugging approach:**
+  - Used Chrome DevTools via MCP to inspect console errors and network requests
+  - Manually called `loadProducts()` and `filterProducts()` in console to isolate the issue
+  - Checked `window.location.pathname` to discover clean URL difference
+  - Used `getComputedStyle()` to find CSS override of hidden attribute
+- **Learnings:**
+  - Netlify catch-all redirects (`/*`) will intercept static file requests - always add exceptions for asset directories
+  - When supporting clean URLs, page detection should check multiple path formats (with/without extension, with/without trailing slash)
+  - JavaScript `!== undefined` does NOT catch `null` - use `!= null` (loose equality) to check for both
+  - CSS `display` property always overrides HTML `hidden` attribute - need explicit `[hidden] { display: none }` rule
+  - `bunx serve` strips `.html` extensions by default - local dev may differ from production URL structure
+  - Browser console + network tab are essential for debugging fetch failures
+
+---
