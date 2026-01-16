@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View product details at Mustache Harnesses Co.">
+  <title>Product Details | Mustache Harnesses Co.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+  <!-- Promo Banner -->
+  <div class="promo-banner">
+    <div class="container">
+      <p>Free shipping on all orders | Use code <strong>AIForHumans</strong> for 10% off</p>
+    </div>
+  </div>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <!-- Logo -->
+        <a href="../index.html" class="logo">
+          <span class="logo-icon">&#127915;</span>
+          <span class="logo-text">Mustache Harnesses Co.</span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="nav-desktop" aria-label="Main navigation">
+          <ul class="nav-list">
+            <li><a href="shop.html" class="nav-link">Shop</a></li>
+            <li><a href="about.html" class="nav-link">About</a></li>
+            <li><a href="faq.html" class="nav-link">FAQ</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <!-- Cart Button -->
+          <a href="cart.html" class="cart-btn" aria-label="Shopping cart">
+            <svg class="cart-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span class="cart-badge" id="cart-badge" aria-label="Items in cart">0</span>
+          </a>
+
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+      <ul class="nav-mobile-list">
+        <li><a href="shop.html" class="nav-mobile-link">Shop</a></li>
+        <li><a href="about.html" class="nav-mobile-link">About</a></li>
+        <li><a href="faq.html" class="nav-mobile-link">FAQ</a></li>
+        <li><a href="contact.html" class="nav-mobile-link">Contact</a></li>
+        <li><a href="cart.html" class="nav-mobile-link">Cart (<span class="mobile-cart-count">0</span>)</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="product-page">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol class="breadcrumb-list">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><span id="breadcrumb-product" aria-current="page">Loading...</span></li>
+        </ol>
+      </nav>
+
+      <!-- Loading State -->
+      <div class="product-loading" id="product-loading">
+        <div class="spinner-center">
+          <div class="spinner spinner-lg"></div>
+        </div>
+        <p class="text-center text-muted">Loading product...</p>
+      </div>
+
+      <!-- Error State -->
+      <div class="product-error" id="product-error" hidden>
+        <div class="product-error-content">
+          <svg class="product-error-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <h1 class="product-error-title">Product Not Found</h1>
+          <p class="product-error-message">Sorry, the product you're looking for doesn't exist or has been removed.</p>
+          <a href="shop.html" class="btn btn-primary">Browse All Products</a>
+        </div>
+      </div>
+
+      <!-- Product Content -->
+      <div class="product-content" id="product-content" hidden>
+        <div class="product-layout">
+          <!-- Product Images Section -->
+          <div class="product-images">
+            <div class="product-image-main" id="product-image-main">
+              <img src="" alt="" id="main-image">
+            </div>
+            <div class="product-image-thumbnails" id="product-thumbnails">
+              <!-- Populated via JavaScript -->
+            </div>
+          </div>
+
+          <!-- Product Info Section -->
+          <div class="product-info">
+            <span class="product-category" id="product-category"></span>
+            <h1 class="product-title" id="product-title"></h1>
+
+            <div class="product-rating-row">
+              <div class="product-rating" id="product-rating"></div>
+              <a href="#product-reviews" class="product-review-count" id="product-review-count"></a>
+            </div>
+
+            <div class="product-price-display" id="product-price"></div>
+
+            <p class="product-description-short" id="product-description-short"></p>
+
+            <!-- Color Selector -->
+            <div class="product-option" id="color-option">
+              <label class="product-option-label">Color: <span id="selected-color"></span></label>
+              <div class="product-color-swatches" id="color-swatches">
+                <!-- Populated via JavaScript -->
+              </div>
+            </div>
+
+            <!-- Size Selector -->
+            <div class="product-option" id="size-option">
+              <div class="product-option-header">
+                <label class="product-option-label">Size: <span id="selected-size"></span></label>
+                <button class="product-size-guide-link" data-modal-open="size-guide-modal">Size Guide</button>
+              </div>
+              <div class="product-size-buttons" id="size-buttons">
+                <!-- Populated via JavaScript -->
+              </div>
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="product-option">
+              <label class="product-option-label">Quantity</label>
+              <div class="quantity-selector" id="product-quantity">
+                <button type="button" class="quantity-btn" data-action="decrease" aria-label="Decrease quantity">−</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="99" aria-label="Quantity">
+                <button type="button" class="quantity-btn" data-action="increase" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+
+            <!-- Add to Cart Button -->
+            <div class="product-add-to-cart">
+              <button class="btn btn-primary btn-xl btn-block" id="add-to-cart-btn">
+                Add to Cart
+              </button>
+            </div>
+
+            <!-- Stock Status -->
+            <div class="product-stock" id="product-stock"></div>
+
+            <!-- Free Shipping Reminder -->
+            <div class="product-shipping">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+              <span>Free shipping on all orders</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Details Tabs -->
+        <div class="product-tabs" id="product-tabs">
+          <div class="product-tabs-nav" role="tablist">
+            <button class="product-tab-btn active" role="tab" aria-selected="true" aria-controls="tab-description" id="tab-btn-description">
+              Description
+            </button>
+            <button class="product-tab-btn" role="tab" aria-selected="false" aria-controls="tab-specifications" id="tab-btn-specifications">
+              Specifications
+            </button>
+            <button class="product-tab-btn" role="tab" aria-selected="false" aria-controls="tab-reviews" id="tab-btn-reviews">
+              Reviews <span class="product-tab-count" id="reviews-tab-count"></span>
+            </button>
+          </div>
+
+          <div class="product-tab-panels">
+            <!-- Description Tab -->
+            <div class="product-tab-panel active" role="tabpanel" id="tab-description" aria-labelledby="tab-btn-description">
+              <div class="product-description" id="product-description-full"></div>
+            </div>
+
+            <!-- Specifications Tab -->
+            <div class="product-tab-panel" role="tabpanel" id="tab-specifications" aria-labelledby="tab-btn-specifications" hidden>
+              <div class="product-specifications" id="product-specifications">
+                <table class="specifications-table">
+                  <tbody id="specifications-tbody">
+                    <!-- Populated via JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Reviews Tab -->
+            <div class="product-tab-panel" role="tabpanel" id="tab-reviews" aria-labelledby="tab-btn-reviews" hidden>
+              <div class="product-reviews" id="product-reviews">
+                <!-- Reviews Summary -->
+                <div class="reviews-summary" id="reviews-summary">
+                  <div class="reviews-summary-rating">
+                    <span class="reviews-rating-number" id="reviews-rating-number"></span>
+                    <div class="reviews-rating-stars" id="reviews-rating-stars"></div>
+                    <span class="reviews-total" id="reviews-total"></span>
+                  </div>
+                  <div class="reviews-breakdown" id="reviews-breakdown">
+                    <!-- Rating breakdown bars -->
+                  </div>
+                </div>
+
+                <!-- Reviews List -->
+                <div class="reviews-list" id="reviews-list">
+                  <!-- Populated via JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related Products -->
+        <section class="related-products" id="related-products">
+          <h2 class="section-title">You May Also Like</h2>
+          <div class="product-grid" id="related-products-grid">
+            <!-- Populated via JavaScript -->
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Size Guide Modal -->
+  <div class="modal-backdrop" id="size-guide-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Size Guide</h3>
+        <button class="modal-close" data-modal-close aria-label="Close">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-4">Select your size based on the upper lip width measurement below:</p>
+        <table class="size-guide-table">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Upper Lip Width</th>
+              <th>Mustache Span</th>
+              <th>Best For</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>S</strong></td>
+              <td>4.0 - 4.5 cm</td>
+              <td>Up to 6 cm</td>
+              <td>Pencil, Petite</td>
+            </tr>
+            <tr>
+              <td><strong>M</strong></td>
+              <td>4.5 - 5.0 cm</td>
+              <td>6 - 8 cm</td>
+              <td>Classic, Natural</td>
+            </tr>
+            <tr>
+              <td><strong>L</strong></td>
+              <td>5.0 - 5.5 cm</td>
+              <td>8 - 10 cm</td>
+              <td>Chevron, Walrus</td>
+            </tr>
+            <tr>
+              <td><strong>XL</strong></td>
+              <td>5.5+ cm</td>
+              <td>10+ cm</td>
+              <td>Handlebar, Imperial</td>
+            </tr>
+            <tr>
+              <td><strong>One Size</strong></td>
+              <td>Adjustable</td>
+              <td>4 - 12 cm</td>
+              <td>Universal fit</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="size-guide-note">
+          <strong>How to measure:</strong> Using a soft measuring tape, measure the width of your upper lip from corner to corner. For mustache span, measure from tip to tip at the widest point of your mustache.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-modal-close>Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand Column -->
+        <div class="footer-brand">
+          <a href="../index.html" class="footer-logo">
+            <span class="logo-icon">&#127915;</span>
+            <span class="logo-text">Mustache Harnesses Co.</span>
+          </a>
+          <p class="footer-tagline">Dignified Solutions for Distinguished Facial Hair</p>
+          <div class="footer-social">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Navigation Columns -->
+        <div class="footer-nav">
+          <h4 class="footer-nav-title">Shop</h4>
+          <ul class="footer-nav-list">
+            <li><a href="shop.html">Shop All</a></li>
+            <li><a href="shop.html?categories=Precision%20Shapers">Precision Shapers</a></li>
+            <li><a href="shop.html?categories=Croc-Style%20Fun-cessories">Fun-cessories</a></li>
+            <li><a href="shop.html?categories=Support%20%26%20Lift%20Systems">Support Systems</a></li>
+            <li><a href="shop.html?categories=Night%20Guards%20%26%20Sleepwear">Night Guards</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav">
+          <h4 class="footer-nav-title">Company</h4>
+          <ul class="footer-nav-list">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="returns.html">Return Policy</a></li>
+          </ul>
+        </div>
+
+        <!-- Satisfaction Badge -->
+        <div class="footer-badge">
+          <div class="satisfaction-badge">
+            <svg class="badge-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div class="badge-text">
+              <strong>100% Satisfaction</strong>
+              <span>Guaranteed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2024 Mustache Harnesses Co. All rights reserved.</p>
+        <p class="footer-disclaimer">This is a fictional e-commerce site for demonstration purposes only.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/products.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/checkout.js"></script>
+  <script src="../js/filters.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

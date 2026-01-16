@@ -120,7 +120,8 @@
       // Shop page init
       initShopPage();
     } else if (path.includes('product.html')) {
-      // Product page init - to be implemented in US-013
+      // Product page init
+      initProductPage();
     } else if (path.includes('cart.html')) {
       // Cart page init - to be implemented in US-014
     } else if (path.includes('checkout.html')) {
@@ -830,6 +831,626 @@
   }
 
   // ============================================
+  // PRODUCT PAGE INITIALIZATION
+  // ============================================
+
+  // Product page state
+  let productState = {
+    product: null,
+    selectedColor: null,
+    selectedSize: null,
+    quantity: 1,
+    activeTab: 'description'
+  };
+
+  /**
+   * Initialize product page functionality
+   */
+  async function initProductPage() {
+    // Get product ID from URL
+    const productId = getQueryParam('id');
+
+    if (!productId) {
+      showProductError();
+      return;
+    }
+
+    try {
+      // Load product data
+      await loadProductData(productId);
+
+      if (!productState.product) {
+        showProductError();
+        return;
+      }
+
+      // Render product content
+      renderProductPage();
+
+      // Initialize product interactions
+      initProductInteractions();
+
+      // Load related products
+      await loadRelatedProducts();
+
+    } catch (error) {
+      console.error('Error initializing product page:', error);
+      showProductError();
+    }
+  }
+
+  /**
+   * Load product data by ID
+   */
+  async function loadProductData(productId) {
+    if (typeof ProductsModule !== 'undefined') {
+      await ProductsModule.loadProducts();
+      productState.product = await ProductsModule.getProductById(productId);
+
+      if (productState.product) {
+        // Set defaults
+        productState.selectedColor = productState.product.colors[0];
+        productState.selectedSize = productState.product.sizes[0];
+        productState.quantity = 1;
+      }
+    }
+  }
+
+  /**
+   * Show product error state
+   */
+  function showProductError() {
+    const loading = document.getElementById('product-loading');
+    const error = document.getElementById('product-error');
+    const content = document.getElementById('product-content');
+
+    if (loading) loading.hidden = true;
+    if (error) error.hidden = false;
+    if (content) content.hidden = true;
+  }
+
+  /**
+   * Render the product page content
+   */
+  function renderProductPage() {
+    const product = productState.product;
+    const loading = document.getElementById('product-loading');
+    const content = document.getElementById('product-content');
+
+    // Hide loading, show content
+    if (loading) loading.hidden = true;
+    if (content) content.hidden = false;
+
+    // Update page title
+    document.title = `${product.name} | Mustache Harnesses Co.`;
+
+    // Update breadcrumb
+    const breadcrumb = document.getElementById('breadcrumb-product');
+    if (breadcrumb) breadcrumb.textContent = product.name;
+
+    // Render images
+    renderProductImages();
+
+    // Render product info
+    renderProductInfo();
+
+    // Render options
+    renderColorOptions();
+    renderSizeOptions();
+
+    // Render tabs content
+    renderProductTabs();
+  }
+
+  /**
+   * Render product images and thumbnails
+   */
+  function renderProductImages() {
+    const product = productState.product;
+    const mainImage = document.getElementById('main-image');
+    const thumbnailContainer = document.getElementById('product-thumbnails');
+
+    // Set main image (use relative path)
+    const mainImagePath = product.images[0].startsWith('/') ? '..' + product.images[0] : '../' + product.images[0];
+    mainImage.src = mainImagePath;
+    mainImage.alt = product.name;
+
+    // Render thumbnails
+    if (thumbnailContainer && product.images.length > 1) {
+      thumbnailContainer.innerHTML = product.images.map((img, index) => {
+        const imgPath = img.startsWith('/') ? '..' + img : '../' + img;
+        return `
+          <button class="product-thumbnail ${index === 0 ? 'active' : ''}" data-index="${index}" aria-label="View image ${index + 1}">
+            <img src="${imgPath}" alt="${product.name} - Image ${index + 1}">
+          </button>
+        `;
+      }).join('');
+    } else if (thumbnailContainer) {
+      thumbnailContainer.style.display = 'none';
+    }
+  }
+
+  /**
+   * Render product info section
+   */
+  function renderProductInfo() {
+    const product = productState.product;
+
+    // Category
+    const categoryEl = document.getElementById('product-category');
+    if (categoryEl) categoryEl.textContent = product.category;
+
+    // Title
+    const titleEl = document.getElementById('product-title');
+    if (titleEl) titleEl.textContent = product.name;
+
+    // Rating
+    const ratingEl = document.getElementById('product-rating');
+    if (ratingEl) ratingEl.innerHTML = createStarRating(product.rating, 'lg');
+
+    // Review count
+    const reviewCountEl = document.getElementById('product-review-count');
+    if (reviewCountEl) reviewCountEl.textContent = `${product.reviewCount} reviews`;
+
+    // Price
+    const priceEl = document.getElementById('product-price');
+    if (priceEl) {
+      priceEl.innerHTML = `<span class="price-current">${formatCurrency(product.price)}</span>`;
+    }
+
+    // Short description (first 150 chars)
+    const shortDescEl = document.getElementById('product-description-short');
+    if (shortDescEl) {
+      const shortDesc = product.description.length > 150
+        ? product.description.substring(0, 150) + '...'
+        : product.description;
+      shortDescEl.textContent = shortDesc;
+    }
+
+    // Stock status
+    renderStockStatus();
+  }
+
+  /**
+   * Render stock status indicator
+   */
+  function renderStockStatus() {
+    const product = productState.product;
+    const stockEl = document.getElementById('product-stock');
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+
+    if (!stockEl) return;
+
+    if (!product.inStock) {
+      stockEl.className = 'product-stock out-of-stock';
+      stockEl.innerHTML = '<span class="product-stock-dot"></span> Out of Stock';
+      if (addToCartBtn) {
+        addToCartBtn.disabled = true;
+        addToCartBtn.textContent = 'Out of Stock';
+      }
+    } else if (product.stockCount <= 5) {
+      stockEl.className = 'product-stock low-stock';
+      stockEl.innerHTML = `<span class="product-stock-dot"></span> Only ${product.stockCount} left in stock`;
+    } else {
+      stockEl.className = 'product-stock in-stock';
+      stockEl.innerHTML = '<span class="product-stock-dot"></span> In Stock';
+    }
+  }
+
+  /**
+   * Render color selection options
+   */
+  function renderColorOptions() {
+    const product = productState.product;
+    const colorSwatches = document.getElementById('color-swatches');
+    const selectedColorEl = document.getElementById('selected-color');
+
+    if (!colorSwatches) return;
+
+    colorSwatches.innerHTML = product.colors.map(color => `
+      <button
+        class="product-color-swatch ${color === productState.selectedColor ? 'active' : ''}"
+        data-color="${color}"
+        style="background-color: ${getColorHex(color)}"
+        aria-label="${color}"
+        title="${color}">
+      </button>
+    `).join('');
+
+    if (selectedColorEl) {
+      selectedColorEl.textContent = productState.selectedColor;
+    }
+  }
+
+  /**
+   * Render size selection options
+   */
+  function renderSizeOptions() {
+    const product = productState.product;
+    const sizeButtons = document.getElementById('size-buttons');
+    const selectedSizeEl = document.getElementById('selected-size');
+
+    if (!sizeButtons) return;
+
+    sizeButtons.innerHTML = product.sizes.map(size => `
+      <button
+        class="product-size-btn ${size === productState.selectedSize ? 'active' : ''}"
+        data-size="${size}">
+        ${size}
+      </button>
+    `).join('');
+
+    if (selectedSizeEl) {
+      selectedSizeEl.textContent = productState.selectedSize;
+    }
+  }
+
+  /**
+   * Render product tabs content
+   */
+  function renderProductTabs() {
+    const product = productState.product;
+
+    // Full description
+    const descEl = document.getElementById('product-description-full');
+    if (descEl) {
+      descEl.innerHTML = `<p>${product.description}</p>`;
+    }
+
+    // Specifications
+    const specsBody = document.getElementById('specifications-tbody');
+    if (specsBody) {
+      specsBody.innerHTML = `
+        <tr>
+          <th>Category</th>
+          <td>${product.category}</td>
+        </tr>
+        <tr>
+          <th>Available Sizes</th>
+          <td>${product.sizes.join(', ')}</td>
+        </tr>
+        <tr>
+          <th>Available Colors</th>
+          <td>${product.colors.join(', ')}</td>
+        </tr>
+        <tr>
+          <th>Materials</th>
+          <td>Premium-grade polymer composite, medical-grade silicone, stainless steel hardware</td>
+        </tr>
+        <tr>
+          <th>Care Instructions</th>
+          <td>Wipe clean with a soft cloth. Do not submerge in water. Store in a cool, dry place.</td>
+        </tr>
+        <tr>
+          <th>Warranty</th>
+          <td>90-day manufacturer warranty against defects</td>
+        </tr>
+      `;
+    }
+
+    // Reviews tab count
+    const reviewsTabCount = document.getElementById('reviews-tab-count');
+    if (reviewsTabCount) {
+      reviewsTabCount.textContent = `(${product.reviewCount})`;
+    }
+
+    // Reviews summary
+    renderReviewsSummary();
+
+    // Reviews list
+    renderReviewsList();
+  }
+
+  /**
+   * Render reviews summary with rating breakdown
+   */
+  function renderReviewsSummary() {
+    const product = productState.product;
+
+    // Rating number
+    const ratingNumber = document.getElementById('reviews-rating-number');
+    if (ratingNumber) ratingNumber.textContent = product.rating.toFixed(1);
+
+    // Rating stars
+    const ratingStars = document.getElementById('reviews-rating-stars');
+    if (ratingStars) ratingStars.innerHTML = createStarRating(product.rating, 'lg');
+
+    // Total reviews
+    const totalReviews = document.getElementById('reviews-total');
+    if (totalReviews) totalReviews.textContent = `Based on ${product.reviewCount} reviews`;
+
+    // Rating breakdown (simulate distribution based on actual reviews)
+    const breakdown = document.getElementById('reviews-breakdown');
+    if (breakdown) {
+      // Calculate distribution from actual reviews
+      const reviews = product.reviews || [];
+      const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+      reviews.forEach(r => {
+        if (counts[r.rating] !== undefined) counts[r.rating]++;
+      });
+
+      // Scale to total review count
+      const reviewedCount = reviews.length;
+      const scale = reviewedCount > 0 ? product.reviewCount / reviewedCount : 1;
+
+      breakdown.innerHTML = [5, 4, 3, 2, 1].map(rating => {
+        const count = Math.round(counts[rating] * scale);
+        const percentage = product.reviewCount > 0 ? (count / product.reviewCount) * 100 : 0;
+        return `
+          <div class="review-bar">
+            <span class="review-bar-label">${rating} stars</span>
+            <div class="review-bar-track">
+              <div class="review-bar-fill" style="width: ${percentage}%"></div>
+            </div>
+            <span class="review-bar-count">${count}</span>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  /**
+   * Render individual reviews list
+   */
+  function renderReviewsList() {
+    const product = productState.product;
+    const reviewsList = document.getElementById('reviews-list');
+
+    if (!reviewsList || !product.reviews) return;
+
+    reviewsList.innerHTML = product.reviews.map(review => {
+      const date = new Date(review.date);
+      const formattedDate = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      return `
+        <article class="review-card">
+          <div class="review-header">
+            <div>
+              <h4 class="review-author">${review.name}</h4>
+              <span class="review-date">${formattedDate}</span>
+            </div>
+            <div class="review-rating">
+              ${createStarRating(review.rating, 'sm')}
+            </div>
+          </div>
+          <p class="review-text">${review.text}</p>
+        </article>
+      `;
+    }).join('');
+  }
+
+  /**
+   * Load and render related products
+   */
+  async function loadRelatedProducts() {
+    const product = productState.product;
+    const grid = document.getElementById('related-products-grid');
+
+    if (!grid || typeof ProductsModule === 'undefined') return;
+
+    try {
+      const related = ProductsModule.getRelatedProducts(product.id, 4);
+
+      if (related && related.length > 0) {
+        grid.innerHTML = related.map(p => createProductCardShop(p)).join('');
+      } else {
+        // Hide related products section if none found
+        const section = document.getElementById('related-products');
+        if (section) section.style.display = 'none';
+      }
+    } catch (error) {
+      console.error('Error loading related products:', error);
+    }
+  }
+
+  /**
+   * Initialize product page interactions
+   */
+  function initProductInteractions() {
+    // Thumbnail clicks
+    initThumbnailClicks();
+
+    // Color swatch clicks
+    initColorSwatchClicks();
+
+    // Size button clicks
+    initSizeButtonClicks();
+
+    // Quantity selector
+    initQuantitySelector(document.querySelector('.product-info'));
+
+    // Add to cart button
+    initAddToCartButton();
+
+    // Tab navigation
+    initProductTabs();
+  }
+
+  /**
+   * Initialize thumbnail image switching
+   */
+  function initThumbnailClicks() {
+    const thumbnailContainer = document.getElementById('product-thumbnails');
+    if (!thumbnailContainer) return;
+
+    thumbnailContainer.addEventListener('click', function(e) {
+      const thumbnail = e.target.closest('.product-thumbnail');
+      if (!thumbnail) return;
+
+      const index = parseInt(thumbnail.dataset.index);
+      const product = productState.product;
+
+      // Update main image
+      const mainImage = document.getElementById('main-image');
+      if (mainImage && product.images[index]) {
+        const imgPath = product.images[index].startsWith('/')
+          ? '..' + product.images[index]
+          : '../' + product.images[index];
+        mainImage.src = imgPath;
+      }
+
+      // Update active thumbnail
+      thumbnailContainer.querySelectorAll('.product-thumbnail').forEach(t => t.classList.remove('active'));
+      thumbnail.classList.add('active');
+    });
+  }
+
+  /**
+   * Initialize color swatch selection
+   */
+  function initColorSwatchClicks() {
+    const colorSwatches = document.getElementById('color-swatches');
+    if (!colorSwatches) return;
+
+    colorSwatches.addEventListener('click', function(e) {
+      const swatch = e.target.closest('.product-color-swatch');
+      if (!swatch) return;
+
+      const color = swatch.dataset.color;
+      productState.selectedColor = color;
+
+      // Update active state
+      colorSwatches.querySelectorAll('.product-color-swatch').forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+
+      // Update selected color text
+      const selectedColorEl = document.getElementById('selected-color');
+      if (selectedColorEl) selectedColorEl.textContent = color;
+    });
+  }
+
+  /**
+   * Initialize size button selection
+   */
+  function initSizeButtonClicks() {
+    const sizeButtons = document.getElementById('size-buttons');
+    if (!sizeButtons) return;
+
+    sizeButtons.addEventListener('click', function(e) {
+      const btn = e.target.closest('.product-size-btn');
+      if (!btn) return;
+
+      const size = btn.dataset.size;
+      productState.selectedSize = size;
+
+      // Update active state
+      sizeButtons.querySelectorAll('.product-size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Update selected size text
+      const selectedSizeEl = document.getElementById('selected-size');
+      if (selectedSizeEl) selectedSizeEl.textContent = size;
+    });
+  }
+
+  /**
+   * Initialize add to cart button
+   */
+  function initAddToCartButton() {
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+    if (!addToCartBtn) return;
+
+    addToCartBtn.addEventListener('click', async function() {
+      const product = productState.product;
+
+      if (!product || !product.inStock) return;
+
+      // Disable button and show loading
+      addToCartBtn.disabled = true;
+      const originalText = addToCartBtn.textContent;
+      addToCartBtn.innerHTML = '<span class="spinner spinner-sm"></span> Adding...';
+
+      // Get quantity
+      const quantityInput = document.querySelector('#product-quantity .quantity-input');
+      const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+
+      try {
+        if (typeof CartModule !== 'undefined') {
+          // Get image path (use relative path)
+          const imagePath = product.images[0].startsWith('/')
+            ? '..' + product.images[0]
+            : '../' + product.images[0];
+
+          CartModule.addToCart({
+            productId: product.id,
+            name: product.name,
+            price: product.price,
+            size: productState.selectedSize,
+            color: productState.selectedColor,
+            quantity: quantity,
+            image: imagePath
+          });
+
+          // Update cart badge
+          updateCartBadge();
+
+          // Show toast
+          showAddedToCartToast({
+            name: product.name,
+            image: imagePath,
+            size: productState.selectedSize,
+            color: productState.selectedColor,
+            quantity: quantity
+          });
+
+          // Dispatch cart updated event
+          document.dispatchEvent(new CustomEvent('cartUpdated'));
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        showToast({ title: 'Error', message: 'Could not add item to cart', type: 'error' });
+      } finally {
+        addToCartBtn.disabled = false;
+        addToCartBtn.textContent = originalText;
+      }
+    });
+  }
+
+  /**
+   * Initialize product tabs
+   */
+  function initProductTabs() {
+    const tabButtons = document.querySelectorAll('.product-tab-btn');
+    const tabPanels = document.querySelectorAll('.product-tab-panel');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabId = this.getAttribute('aria-controls');
+
+        // Update button states
+        tabButtons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        this.classList.add('active');
+        this.setAttribute('aria-selected', 'true');
+
+        // Update panel visibility
+        tabPanels.forEach(panel => {
+          panel.classList.remove('active');
+          panel.hidden = true;
+        });
+
+        const activePanel = document.getElementById(tabId);
+        if (activePanel) {
+          activePanel.classList.add('active');
+          activePanel.hidden = false;
+        }
+      });
+    });
+
+    // Handle anchor link to reviews tab
+    if (window.location.hash === '#product-reviews') {
+      const reviewsBtn = document.getElementById('tab-btn-reviews');
+      if (reviewsBtn) reviewsBtn.click();
+    }
+  }
+
+  // ============================================
   // STAR RATING COMPONENT
   // ============================================
 
@@ -1529,7 +2150,9 @@
     initLandingPage: initLandingPage,
     loadFeaturedProducts: loadFeaturedProducts,
     // Shop page
-    initShopPage: initShopPage
+    initShopPage: initShopPage,
+    // Product page
+    initProductPage: initProductPage
   };
 
 })();
